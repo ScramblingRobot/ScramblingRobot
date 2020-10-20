@@ -1,3 +1,5 @@
+Reason for file:	When I resturcutred the repository it says I uploaded everything, which in fact I did not
+
 Carson Logston:		cubot.py
 			cubot_lib.py
 
