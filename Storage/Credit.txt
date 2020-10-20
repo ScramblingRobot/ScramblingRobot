@@ -1,0 +1,5 @@
+Carson Logston:		cubot.py
+			cubot_lib.py
+
+Andrew Nathenson:	Example.RTF
+			Alg Translator
