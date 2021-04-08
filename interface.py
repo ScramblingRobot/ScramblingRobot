@@ -11,6 +11,7 @@ config = {
     "l3": 3
 }
 
+# Currently, selected is an integer and starts at 0.  I'd suggest keeping it as an integer, but you can make it so that it starts at whatever value makes sense for the servos.
 selected = 0
 buttons = []
 
@@ -33,6 +34,7 @@ def loadConfig():
 loadButton = Button(root, text="Load Config", command=loadConfig)
 loadButton.grid(row=4, column=0)
 
+# You can modify this function to make it not only print and copy the config, you can use it to figure out a layer height (by subtracting two of the layer measurements) and add this to what Josh has written.
 def printConfig():
     print(config)
     root.clipboard_clear()
@@ -68,13 +70,14 @@ def buttonClicked(num):
 
 def clockwise():
     config["l" + str(selected)] += 1
-    moveServo(selected, config["l" + str(selected)])
+    moveServo(config["l" + str(selected)])
 
 def counterclockwise():
     config["l" + str(selected)] -= 1
-    moveServo(selected, config["l" + str(selected)])
+    moveServo(config["l" + str(selected)])
 
-def moveServo(num, toLocation):
+# HI STEVEN!  This is the function that you need to use to move the bottom servo to the left and right.  
+def moveServo(toLocation):
     pass
 
 clockwiseButton = Button(root, text="↻", command=clockwise)
