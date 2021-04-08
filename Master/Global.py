@@ -1,3 +1,5 @@
+import math
+
 class Face(object): # Since python doens have Enum, made my own as it makes tracking code simpiler
     Front   = 0
     Left    = 1
@@ -5,7 +7,7 @@ class Face(object): # Since python doens have Enum, made my own as it makes trac
     Right   = 3
     Up      = 4
     Down    = 5
-Face = Face()
+Face = Face()   # Enum to signify face of Cube
 
 class Dir(object):
     South   = 0
@@ -16,14 +18,7 @@ class Dir(object):
     Below   = 5
 Dir = Dir()
 
-Arms = {    # Will change to dictionary of Arm Objects, with key as direction of arm relative to cube
-        Dir.West    : "Rotate West Arm!",
-        Dir.East    : "Rotate East Arm!",
-        Dir.Below   : "Rotate Below Arm!"
-       }
-
 GridUnit = 1.0
 
-# [Temporary] used for output tracked instead of seein index, display names
-f = ["Front", "Left", "Back", "Right", "Up", "Down"]
-d = ["South", "West", "North", "East", "Above", "Below"]
+Dimension = 3
+Boundary = math.floor(Dimension/2)
