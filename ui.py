@@ -31,6 +31,7 @@ open_round.pack()
 
 
 def send(scramble):
+    print(len(scramble.split(" ")))
     print(transformToRobot(scramble))
 
 
@@ -80,11 +81,13 @@ tk.Button(root, text="e2", command=send_e2).pack()
 
 def transformToRobot(scramble):
     moves = scramble.split(" ")
+    size = 0
+
     newScramble = ""
     length = len(moves)
     i = 0
     while i < length:
-        if moves[i][0] == "F" or moves[i][0] == "B":
+        if "F" in moves[i][0] or "B" in moves[i][0]:
             j = length
             # Shift all the moves over to add the rotation in
             moves.append(moves[j-1])
@@ -97,16 +100,20 @@ def transformToRobot(scramble):
             length += 1
             k = i
             while (k < len(moves)):
-                if moves[k][0] == 'R':
+                if 'R' in moves[k][0]:
                     moves[k] = moves[k].replace('R', 'F')
-                elif moves[k][0] == 'B':
+                elif 'B' in moves[k][0]:
                     moves[k] = moves[k].replace('B', 'R')
-                elif moves[k][0] == 'L':
+                elif 'L' in moves[k][0]:
                     moves[k] = moves[k].replace('L', 'B')
-                elif moves[k][0] == 'F':
+                elif 'F' in moves[k][0]:
                     moves[k] = moves[k].replace('F', 'L')
 
                 k += 1
+        elif "U" in moves[i][0]:
+            pass
+            # TODO: Make this handle U moves
+
         newScramble = newScramble + moves[i] + " "
         i += 1
     return newScramble
