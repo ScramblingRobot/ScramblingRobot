@@ -1,95 +1,126 @@
 from Global import *
 from Sequence import *
 
-# [Temporary] will be from file
-input = "U2 R' F U' F' R2 F' U'" #"Bw2 F Uw' D2 Rw' F2 Uw2 Fw F Bw2 Lw2"
-
-ScrambleSequences = []   # Keeps track of all instructions needed
-Faces = [Dir.South, Dir.West, Dir.North, Dir.East, Dir.Above, Dir.Below] # where each cube face is pointing, the index are: Front, Left, Back, Right, Up, Down
-Current = {Dir.West: 0, Dir.East: 0, Dir.Below: 0}  # 0 -1 2 1 0
-
-# [Temporary] used to output instructions
-def printFaces():
-    print("[Front = {}, Left = {}, Back = {}, Right = {}, Up = {}, Down = {}]".format( d[Faces[0]], d[Faces[1]],d[Faces[2]],d[Faces[3]],d[Faces[4]],d[Faces[5]] ))
-
-# Shift the Faces array
-def ShiftCube(degree): 
-    if degree == 180:
-        Faces[Face.Front], Faces[Face.Left], Faces[Face.Back], Faces[Face.Right] = Faces[Face.Back], Faces[Face.Right], Faces[Face.Front], Faces[Face.Left]
-    elif degree == 90:
-        Faces[Face.Front], Faces[Face.Left], Faces[Face.Back], Faces[Face.Right] = Faces[Face.Right], Faces[Face.Front], Faces[Face.Left], Faces[Face.Back]
+def transformToRobot(scramble):
+    moves = scramble.split(" ")
+    size = 0
+    if len(moves) < 15:
+        size = 2
+    elif len(moves) < 30:
+        size = 3
+    elif len(moves) < 59:
+        size = 4
+    elif len(moves) < 79:
+        size = 5
+    elif len(moves) < 99:
+        size = 6
     else:
-        Faces[Face.Front], Faces[Face.Left], Faces[Face.Back], Faces[Face.Right] = Faces[Face.Left], Faces[Face.Back], Faces[Face.Right], Faces[Face.Front]
+        size = 7
+    newScramble = ""
+    length = len(moves)
+    i = 0
+    while i < length:
+        if "F" in moves[i][0] or "B" in moves[i][0]:
+            j = length
+            # Shift all the moves over to add the rotation in
+            moves.append(moves[j-1])
+            while (j > i):
+                moves[j] = moves[j-1]
+                j -= 1
 
-for sequence in input.split():   # Could possible move into main loop
-    ScrambleSequences.append( translate(sequence) )
+            # Add the rotation
+            moves[i] = "y"
+            length += 1
+            shiftclockwise(moves, i)
+        elif "U" in moves[i][0]:
+            if moves[i] == "U":
+                moves[i] = str(size - 2) + "Dw"
+                shiftcounterclockwise(moves, i)
+            elif moves[i] == "U'":
+                moves[i] = str(size - 2) + "Dw'"
+                shiftclockwise(moves, i)
+            elif moves[i] == "U2":
+                moves[i] = str(size - 2) + "Dw2"
+                shift180(moves, i)
+            elif moves[i] == "Uw":
+                moves[i] = str(size - 3) + "Dw"
+                shiftcounterclockwise(moves, i)
+            elif moves[i] == "Uw'":
+                moves[i] = str(size - 3) + "Dw'"
+                shiftclockwise(moves, i)
+            elif moves[i] == "Uw2":
+                moves[i] = str(size - 3) + "Dw2"
+                shift180(moves, i)
+            elif moves[i] == "2Uw":
+                moves[i] = str(size - 4) + "Dw"
+                shiftcounterclockwise(moves, i)
+            elif moves[i] == "2Uw'":
+                moves[i] = str(size - 4) + "Dw'"
+                shiftclockwise(moves, i)
+            elif moves[i] == "2Uw2":
+                moves[i] = str(size - 4) + "Dw2"
+                shift180(moves, i)
 
-for sequence in ScrambleSequences:
-    if sequence.Face == Face.Up:    #Bottom Arm will always be facing bottom face
-        sideOffset = (Boundary - sequence.Width) * GridUnit
-        print(f"Left Arm: Open -> Move  +{sideOffset} -> Close")
-        print(f"Right Arm: Open -> Move +{sideOffset} -> Close\n")
-        
-        lowerOffset = Dimension - 1 - ( sequence.Width + 1 )    # -1 is to account that the bottom arm is holding cube at edge (Change formula later but logic is consitent), +1 becuase width starts at 0
-        print("Bottom Arm: Open")
-        print(f"Left Arm: Move -{lowerOffset}")
-        print(f"Right Arm: Move -{lowerOffset}")
-        print(f"Bottom Arm: Close -> Rotate -{sequence.Degree} degrees\n")
-        ShiftCube(sequence.Degree)
+        newScramble = newScramble + moves[i] + " "
+        i += 1
+    return newScramble
 
-        print("Bottom  Arm: Open")
-        print(f"Left Arm: Move +{lowerOffset}")
-        print(f"Right Arm: Move +{lowerOffset}")
-        print("Bottom Arm: Close\n")
 
-        print(f"Left Arm: Open -> Move  -{sideOffset} -> Close")
-        print(f"Right Arm: Open -> Move -{sideOffset} -> Close\n")
-    elif sequence.Face == Face.Down:
-        sideOffset = sequence.Width - Boundary + 1
-        print(f"Left Arm: Open -> Move  {sideOffset} -> Close")
-        print(f"Right Arm: Open -> Move {sideOffset} -> Close\n")
+def shiftclockwise(moves, i):
+    k = i
+    while (k < len(moves)):
+        if 'R' in moves[k][0]:
+            moves[k] = moves[k].replace('R', 'F')
+        elif 'B' in moves[k][0]:
+            moves[k] = moves[k].replace('B', 'R')
+        elif 'L' in moves[k][0]:
+            moves[k] = moves[k].replace('L', 'B')
+        elif 'F' in moves[k][0]:
+            moves[k] = moves[k].replace('F', 'L')
+        k += 1
 
-        lowerOffset = -lowerOffset - (Boundary -1)
-        print("Bottom Arm: Open")
-        print(f"Left Arm: Move {lowerOffset}")
-        print(f"Right Arm: Move {lowerOffset}")
-        print("Bottom Arm: Close\n")
 
-        print(f"Bottom Arm: Rotate {sequence.Degree} degrees")
-        if sequence.Degree != 180:
-            print("Bottom Arm: Open -> Rotate {sequence.Degree} degrees -> Close")
-        print("\n")
+def shiftcounterclockwise(moves, i):
+    k = i
+    while (k < len(moves)):
+        if 'R' in moves[k][0]:
+            moves[k] = moves[k].replace('R', 'B')
+        elif 'B' in moves[k][0]:
+            moves[k] = moves[k].replace('B', 'L')
+        elif 'L' in moves[k][0]:
+            moves[k] = moves[k].replace('L', 'F')
+        elif 'F' in moves[k][0]:
+            moves[k] = moves[k].replace('F', 'R')
+        k += 1
 
-        print("Bottom Arm: Open")
-        print(f"Left Arm: Move +{lowerOffset}")
-        print(f"Right Arm: Move +{lowerOffset}")
-        print("Bottom Arm: Close\n")
 
-        print(f"Left Arm: Open -> Move  +{sideOffset} -> Close")
-        print(f"Right Arm: Open -> Move +{sideOffset} -> Close\n")
-    else:
-        if (Faces[sequence.Face] != Dir.West) and (Faces[sequence.Face] != Dir.East):  # The face to be turned is not in position of an arm
-            print("Left Arm: Open")
-            print("Right Arm: Open")
-            print("Bottom Arm: Rotate 90 degrees")
-            ShiftCube(90)
-            print("Left Arm: Close")
-            print("Right Arm: Close")
-            print("Bottom Arm: Open -> Rotate 90 degrees -> Close")
-        
-        bottomOffSet = sequence.Width - Current[Faces[sequence.Face]]   # Put an if to hande if its West or East arm -> for now named Side arm
-        print("Left Arm: Open")
-        print("Right Arm: Open")
-        print("Bottom Arm: Move {bottomOffset}")
-        print("Left Arm: Close")
-        print("Right Arm: Close\n")
+def shift180(moves, i):
+    k = i
+    while (k < len(moves)):
+        if 'R' in moves[k][0]:
+            moves[k] = moves[k].replace('R', 'L')
+        elif 'B' in moves[k][0]:
+            moves[k] = moves[k].replace('B', 'F')
+        elif 'L' in moves[k][0]:
+            moves[k] = moves[k].replace('L', 'R')
+        elif 'F' in moves[k][0]:
+            moves[k] = moves[k].replace('F', 'B')
+        k += 1
 
-        print("Side arm: Rotate {sequence.Degree} degrees")
-        if sequence.Degree != 180:
-            print("Side Arm: Open -> Rotate {sequence.Degree} degrees -> Close")
+# -----------------------------------------------------------
+print("U2 R' F U' F' R2 F' U'")
+input = transformToRobot("U2 R' F U' F' R2 F' U'")  # -> 0Dw2 L' y R 0Dw' y L' y L2 y R' 0Dw'  
+print(input+'\n')
 
-        print("Left Arm: Open")
-        print("Right Arm: Open")
-        print("Bottom Arm: Move -{bottomOffset}")
-        print("Left Arm: Close")
-        print("Right Arm: Close\n")
+perform(input)
+
+# Andrew after taking scamble input your function transformToRobot would return the pre processed input
+
+# Dont forget The includes (Can be seen on lines 1 - 2)
+# Take that preprocessed input and pass it my preform function. (Function can be found in Sequence.py)
+
+# In the preform function all that should be needed to be done is just pluging in Stevens operations in correpsonding ifs
+
+# In Global I have 
+
+# Andrew Collects Input -> Process it so that moves are always in direction of arm -> Plug into Joshs Preform Function -> Within the Preform Function Stevens in depth robot operations take place
