@@ -4,29 +4,39 @@ class Sequence(object):
     Face = None
     Width = 0
     Degree = 90
-    def Out(self): # [Temporary] used to output Instruction 
-        print("Face: {0}\nCord: {1}\nDegree: {2}\n".format( f[self.Face], self.Cord, self.Degree))
+    def __init__(self,input):   # Translate text into scramble class Sequence
+        for char in input:     
+            if char == 'y':     # No need to set degree since by defualt its 90
+                self.Face = 'y'
+            if char == 'F':
+                self.Face = Face.Front
+            elif char == 'L':
+                self.Face = Face.Left
+            elif char == 'B':
+                self.Face = Face.Back
+            elif char == 'R':
+                self.Face = Face.Right
+            elif char == 'U':
+                self.Face = Face.Up
+            elif char == 'D':
+                self.Face = Face.Down
+            elif char == 'W':                       # IMPORTANT:  xDw -> x-layer D turn. 0 meants 1, etc
+                self.Width = float( input[0] )      # IGNORE ( float( input[0] ) if input[0].isdigit()  else 1)
+            elif char == '2':   
+                self.Degree = 180
+            elif char == "'":
+                self.Degree = -90
 
-# Translate text into scramble class Sequence 
-def translate(input):
-    sequence = Sequence()
-    for char in input:
-        if char == 'F':
-            sequence.Face = Face.Front
-        elif char == 'L':
-            sequence.Face = Face.Left
-        elif char == 'B':
-            sequence.Face = Face.Back
-        elif char == 'R':
-            sequence.Face = Face.Right
-        elif char == 'U':
-            sequence.Face = Face.Up
-        elif char == 'D':
-            sequence.Face = Face.Down
-        elif char == 'W':   # Maybe in default put an if to see if its an int and if so then use that for how many layers W it is
-            sequence.Width = ( float( input[0] ) if input[0].isdigit()  else 2)
-        elif char == '2':   
-            sequence.Degree = 180
-        elif char == "'":
-            sequence.Degree = -90
-    return sequence
+def perform(input):
+    for s in input.split(): 
+        sequence = Sequence(s)
+
+        if sequence.Face == 'y':    
+            print("Rotate Entire Cube: {0} degrees (Using Bottom Arm)\n".format(sequence.Degree))
+        elif sequence.Face == Face.Down:
+            print("Rotate Bottom Arm: Layer {0} and {1} degrees\n".format(sequence.Width,sequence.Degree))
+        else:
+            if sequence.Face == Face.Left:
+                print("Rotate Left Arm: Layer {0} and {1} degrees\n".format(sequence.Width,sequence.Degree))
+            else:
+                print("Rotate Right Arm: Layer {0} and {1} degrees\n".format(sequence.Width,sequence.Degree))
