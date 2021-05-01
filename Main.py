@@ -3,24 +3,24 @@ from Sequence import *
 
 def transformToRobot(scramble):
     moves = scramble.split(" ")
-    size = 0
-    if len(moves) < 15:
-        size = 2
-    elif len(moves) < 30:
-        size = 3
-    elif len(moves) < 59:
-        size = 4
-    elif len(moves) < 79:
-        size = 5
-    elif len(moves) < 99:
-        size = 6
-    else:
-        size = 7
+    size = 7
+    # if len(moves) < 15:
+    #     size = 2
+    # elif len(moves) < 30:
+    #     size = 3
+    # elif len(moves) < 59:
+    #     size = 4
+    # elif len(moves) < 79:
+    #     size = 5
+    # elif len(moves) < 99:
+    #     size = 6
+    # else:
+    #     size = 7
     newScramble = ""
     length = len(moves)
     i = 0
     while i < length:
-        if "F" in moves[i][0] or "B" in moves[i][0]:
+        if "F" in moves[i] or "B" in moves[i]:
             j = length
             # Shift all the moves over to add the rotation in
             moves.append(moves[j-1])
@@ -32,34 +32,37 @@ def transformToRobot(scramble):
             moves[i] = "y"
             length += 1
             shiftclockwise(moves, i)
-        elif "U" in moves[i][0]:
+        elif "U" in moves[i]:
             if moves[i] == "U":
-                moves[i] = str(size - 2) + "Dw"
+                moves[i] = str(size - 1) + "Dw"
                 shiftcounterclockwise(moves, i)
             elif moves[i] == "U'":
-                moves[i] = str(size - 2) + "Dw'"
-                shiftclockwise(moves, i)
+                moves[i] = str(size - 1) + "Dw'"
+                shiftclockwise(moves, 1)
             elif moves[i] == "U2":
-                moves[i] = str(size - 2) + "Dw2"
+                moves[i] = str(size - 1) + "Dw2"
                 shift180(moves, i)
             elif moves[i] == "Uw":
-                moves[i] = str(size - 3) + "Dw"
+                moves[i] = str(size - 2) + "Dw"
                 shiftcounterclockwise(moves, i)
             elif moves[i] == "Uw'":
-                moves[i] = str(size - 3) + "Dw'"
+                moves[i] = str(size - 2) + "Dw'"
                 shiftclockwise(moves, i)
             elif moves[i] == "Uw2":
+                moves[i] = str(size - 2) + "Dw2"
+                shift180(moves, i)
+            elif moves[i] == "3Uw":
+                moves[i] = str(size - 3) + "Dw"
+                shiftcounterclockwise(moves, i)
+            elif moves[i] == "3Uw'":
+                moves[i] = str(size - 3) + "Dw'"
+                shiftclockwise(moves, i)
+            elif moves[i] == "3Uw2":
                 moves[i] = str(size - 3) + "Dw2"
                 shift180(moves, i)
-            elif moves[i] == "2Uw":
-                moves[i] = str(size - 4) + "Dw"
-                shiftcounterclockwise(moves, i)
-            elif moves[i] == "2Uw'":
-                moves[i] = str(size - 4) + "Dw'"
-                shiftclockwise(moves, i)
-            elif moves[i] == "2Uw2":
-                moves[i] = str(size - 4) + "Dw2"
-                shift180(moves, i)
+        elif "w" in moves[i]:
+            if moves[i][0] is not "3":
+                moves[i] = "2" + moves[i]
 
         newScramble = newScramble + moves[i] + " "
         i += 1
@@ -108,8 +111,9 @@ def shift180(moves, i):
         k += 1
 
 # -----------------------------------------------------------
-print("U2 R' F U' F' R2 F' U'")
-input = transformToRobot("U2 R' F U' F' R2 F' U'")  # -> 0Dw2 L' y R 0Dw' y L' y L2 y R' 0Dw'  
+testString = "3Uw2 R' Fw U F' R2 F' U2 R' F U F' R2 F' U2 R' F U F' R2 F'"
+print(testString)
+input = transformToRobot(testString)  # -> 0Dw2 L' y R 0Dw' y L' y L2 y R' 0Dw'  
 print(input+'\n')
 
 perform(input)

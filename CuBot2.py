@@ -113,7 +113,7 @@ def presentCube():
 
 # PO (Primary Operation) - rotate left layer 90 degrees (1) or -90 degrees (-1)
 ## Orientation: no change
-def L(direction):
+def L(self, numLayers, direction):
     leftArm.grip(leftArm.gripMaxAngle)
     rightArm.grip(rightArm.gripMaxAngle)
     time.sleep(0.5)
@@ -141,7 +141,7 @@ def L(direction):
     
 # PO (Primary Operation) - rotate right layer 90 degrees (1) or -90 degrees (-1)
 ## Orientation: no change
-def R(direction):
+def R(self, numLayers, direction):
     rightArm.grip(rightArm.gripMaxAngle)
     leftArm.grip(leftArm.gripMaxAngle)    
     time.sleep(0.5)
@@ -169,7 +169,7 @@ def R(direction):
 
 # PO (Primary Operation) - rotate cube 90 degrees (1) or -90 degrees (-1)
 ## Orientation: cube will rotate 90 degrees (1) or -90 degrees (-1) wrt the Y axis
-def Y(direction):
+def Y(self, direction):
     centerArm.grip(centerArm.gripMaxAngle)
     time.sleep(0.5)
     arms.moveSideArms(-50, 0.01)
@@ -198,9 +198,9 @@ def Y(direction):
     centerArm.grip(centerArm.gripCubeAngle)
     time.sleep(1)
     
-# PO (Primary Operation) - rotate bottom layer 90 degrees (1) or -90 degrees (-1)
+# PO (Primary Operation) - rotate Down layer 90 degrees (1) or -90 degrees (-1)
 ## Orientation: no change
-def B(direction):
+def D(self, numLayers, direction):
     centerArm.grip(centerArm.gripMaxAngle)
     time.sleep(0.5)
     arms.moveSideArms(-25, 0.01)
@@ -217,11 +217,11 @@ def B(direction):
     centerArm.grip(centerArm.gripCubeAngle)
     time.sleep(1)
     
-# PO (Primary Operation) - rotate top layer 90 degrees (1) or -90 degrees (-1)
-## Orientation: cube will rotate -90 degrees (1) or 90 degrees (-1) wrt the Y axis
-def T(direction):
-    #yet to be implemented
-    time.sleep(1)
+# # PO (Primary Operation) - rotate Up layer 90 degrees (1) or -90 degrees (-1)
+# ## Orientation: cube will rotate -90 degrees (1) or 90 degrees (-1) wrt the Y axis
+# def U(layers, direction):
+#     #yet to be implemented
+#     time.sleep(1)
 
 ############## Begin Testing ##############
 #centerArm.move(centerArm.moveMaxAngle)

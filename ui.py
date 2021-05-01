@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
+from Sequence import perform
 
 root = tk.Tk()
 
@@ -33,6 +34,7 @@ open_round.pack()
 def send(scramble):
     print(len(scramble.split(" ")))
     print(transformToRobot(scramble))
+    perform(transformToRobot(scramble))
 
 
 def send_1():
@@ -54,7 +56,7 @@ def send_4():
     if scramble_file is not None:
         send(lines[3])
 
-
+# TODO: Make the buttons 4 and 5 not appear for 6x6 or 7x7 scrambles, since those are mean of 3 events
 def send_5():
     if scramble_file is not None:
         send(lines[4])
@@ -81,10 +83,10 @@ tk.Button(root, text="e2", command=send_e2).pack()
 
 def transformToRobot(scramble):
     moves = scramble.split(" ")
-    size = 0
-    if len(moves) < 15:
-        size = 2
-    elif len(moves) < 30:
+    size = 3
+    # if len(moves) < 15:           THESE LINES ARE NEEDED FOR ACTUAL FUNCTION, BUT BREAK THE DEMO.  Also change if --> elif
+    #     size = 2
+    if len(moves) < 30:
         size = 3
     elif len(moves) < 59:
         size = 4
@@ -98,7 +100,8 @@ def transformToRobot(scramble):
     length = len(moves)
     i = 0
     while i < length:
-        if "F" in moves[i][0] or "B" in moves[i][0]:
+        moves[i] = moves[i].rstrip()
+        if "F" in moves[i] or "B" in moves[i]:
             j = length
             # Shift all the moves over to add the rotation in
             moves.append(moves[j-1])
@@ -110,34 +113,37 @@ def transformToRobot(scramble):
             moves[i] = "y"
             length += 1
             shiftclockwise(moves, i)
-        elif "U" in moves[i][0]:
+        elif "U" in moves[i]:
             if moves[i] == "U":
-                moves[i] = str(size - 2) + "Dw"
+                moves[i] = str(size - 1) + "Dw"
                 shiftcounterclockwise(moves, i)
             elif moves[i] == "U'":
-                moves[i] = str(size - 2) + "Dw'"
-                shiftclockwise(moves, i)
+                moves[i] = str(size - 1) + "Dw'"
+                shiftclockwise(moves, 1)
             elif moves[i] == "U2":
-                moves[i] = str(size - 2) + "Dw2"
+                moves[i] = str(size - 1) + "Dw2"
                 shift180(moves, i)
             elif moves[i] == "Uw":
-                moves[i] = str(size - 3) + "Dw"
+                moves[i] = str(size - 2) + "Dw"
                 shiftcounterclockwise(moves, i)
             elif moves[i] == "Uw'":
-                moves[i] = str(size - 3) + "Dw'"
+                moves[i] = str(size - 2) + "Dw'"
                 shiftclockwise(moves, i)
             elif moves[i] == "Uw2":
+                moves[i] = str(size - 2) + "Dw2"
+                shift180(moves, i)
+            elif moves[i] == "3Uw":
+                moves[i] = str(size - 3) + "Dw"
+                shiftcounterclockwise(moves, i)
+            elif moves[i] == "3Uw'":
+                moves[i] = str(size - 3) + "Dw'"
+                shiftclockwise(moves, i)
+            elif moves[i] == "3Uw2":
                 moves[i] = str(size - 3) + "Dw2"
                 shift180(moves, i)
-            elif moves[i] == "2Uw":
-                moves[i] = str(size - 4) + "Dw"
-                shiftcounterclockwise(moves, i)
-            elif moves[i] == "2Uw'":
-                moves[i] = str(size - 4) + "Dw'"
-                shiftclockwise(moves, i)
-            elif moves[i] == "2Uw2":
-                moves[i] = str(size - 4) + "Dw2"
-                shift180(moves, i)
+        elif "w" in moves[i]:
+            if moves[i][0] != "3":
+                moves[i] = "2" + moves[i]
 
         newScramble = newScramble + moves[i] + " "
         i += 1
@@ -147,13 +153,13 @@ def transformToRobot(scramble):
 def shiftclockwise(moves, i):
     k = i
     while (k < len(moves)):
-        if 'R' in moves[k][0]:
+        if 'R' in moves[k]:
             moves[k] = moves[k].replace('R', 'F')
-        elif 'B' in moves[k][0]:
+        elif 'B' in moves[k]:
             moves[k] = moves[k].replace('B', 'R')
-        elif 'L' in moves[k][0]:
+        elif 'L' in moves[k]:
             moves[k] = moves[k].replace('L', 'B')
-        elif 'F' in moves[k][0]:
+        elif 'F' in moves[k]:
             moves[k] = moves[k].replace('F', 'L')
         k += 1
 
@@ -161,13 +167,13 @@ def shiftclockwise(moves, i):
 def shiftcounterclockwise(moves, i):
     k = i
     while (k < len(moves)):
-        if 'R' in moves[k][0]:
+        if 'R' in moves[k]:
             moves[k] = moves[k].replace('R', 'B')
-        elif 'B' in moves[k][0]:
+        elif 'B' in moves[k]:
             moves[k] = moves[k].replace('B', 'L')
-        elif 'L' in moves[k][0]:
+        elif 'L' in moves[k]:
             moves[k] = moves[k].replace('L', 'F')
-        elif 'F' in moves[k][0]:
+        elif 'F' in moves[k]:
             moves[k] = moves[k].replace('F', 'R')
         k += 1
 
@@ -175,13 +181,13 @@ def shiftcounterclockwise(moves, i):
 def shift180(moves, i):
     k = i
     while (k < len(moves)):
-        if 'R' in moves[k][0]:
+        if 'R' in moves[k]:
             moves[k] = moves[k].replace('R', 'L')
-        elif 'B' in moves[k][0]:
+        elif 'B' in moves[k]:
             moves[k] = moves[k].replace('B', 'F')
-        elif 'L' in moves[k][0]:
+        elif 'L' in moves[k]:
             moves[k] = moves[k].replace('L', 'R')
-        elif 'F' in moves[k][0]:
+        elif 'F' in moves[k]:
             moves[k] = moves[k].replace('F', 'B')
         k += 1
 
