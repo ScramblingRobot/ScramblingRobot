@@ -5,218 +5,241 @@ import Cube
 import Arms2
 import time
 
-#initialize cube object with cube's width and number of layers
-cube = Cube.Cube(68, 7)
-
-#initialize arms object with all 3 arms (9 servos)
-arms = Arms2.AllArms(cube)
-
-leftArm = arms.leftArm
-rightArm = arms.rightArm
-centerArm = arms.centerArm
-
-#setting the cube to solved state and printing it
-cube.solvedState()
-cube.printCube()
-
-#prints the entire grip dictionary for each arm
-#print(leftArm.gripDictionary)
-#print(rightArm.gripDictionary)
-#print(centerArm.gripDictionary)
-
-# SO (Starting Operation) - takes cube from the user and manipulate it to the correct operating position
-## Orientation: cube will rotate 90 degrees wrt the Y axis
-def acceptCube():
-    centerArm.rotate(-1)
-    time.sleep(0.5)
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(40, 0)
-    rightArm.moveRelative(90, 0)
-    time.sleep(0.5)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(0.5)
-    centerArm.grip(centerArm.gripInitAngle)
-    time.sleep(0.5)
-    rightArm.moveSmooth(rightArm.moveMinAngle, 0.01)
-    centerArm.grip(centerArm.gripMaxAngle)
-    time.sleep(0.5)
-    centerArm.rotate(0)
-    leftArm.grip(leftArm.gripMaxAngle)
-    time.sleep(0.1)
-    centerArm.moveRelative(-10, 0)
-    rightArm.moveSmooth(rightArm.moveInitAngle, 0.01)
-    time.sleep(0.5)
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(0.5)
-    rightArm.grip(rightArm.gripInitAngle)
-    time.sleep(0.5)
-    centerArm.moveSmooth(centerArm.moveInitAngle, 0.02)
-    time.sleep(0.5)
-    leftArm.grip(leftArm.gripCubeAngle)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(0.5)
-
-# CO (Consistency Operation) - brings the cube to the correct operating height
-## Orientation: no change
-def checkHeight():
-    leftArm.grip(leftArm.gripMaxAngle)
-    rightArm.grip(rightArm.gripMaxAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(-20, 0.01)
-    rightArm.rotate(1)
-    time.sleep(0.5)
-    centerArm.moveRelative(50, 0.01)
-    time.sleep(0.1)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(0.5)
-    rightArm.grip(rightArm.gripMaxAngle)
-    centerArm.moveRelative(-50, 0.01)
-    rightArm.rotate(0)
-    time.sleep(0.5)
-    centerArm.moveRelative(20, 0.01)
-    time.sleep(0.1)
-    leftArm.grip(leftArm.gripCubeAngle)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(1)
+class CuBot:
+    'Cubot Object'
     
-# EO (Ending Operation) - brings cube back to the starting starting position
-## Orientation: cube will rotate -90 degrees wrt the Y axis
-def presentCube():
-    leftArm.grip(leftArm.gripMaxAngle)
-    rightArm.grip(rightArm.gripMaxAngle)
-    time.sleep(0.5)
-    rightArm.move(rightArm.moveMinAngle)
-    centerArm.move(centerArm.moveInitAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(40, 0.02)
-    centerArm.rotate(-1)
-    time.sleep(0.5)
-    rightArm.move(rightArm.moveInitAngle)
-    time.sleep(0.5)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(1.5)
-    centerArm.grip(centerArm.gripInitAngle)
-    time.sleep(0.5)
-    rightArm.moveRelative(90, 0.02)
-    time.sleep(0.5)
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(0.5)
-    rightArm.grip(rightArm.gripInitAngle)
-    time.sleep(0.5)
-    rightArm.move(rightArm.moveInitAngle)
-    centerArm.move(centerArm.moveInitAngle)
-    time.sleep(0.5)
-    centerArm.rotate(0)
-    time.sleep(0.5)
-    centerArm.grip(centerArm.gripMaxAngle)
+    def __init__ (self, cubeWidth, cubeLayers):        
+        #initialize cube object with cube's width and number of layers
+        self.cube = Cube.Cube(cubeWidth, cubeLayers)
 
-# PO (Primary Operation) - rotate left layer 90 degrees (1) or -90 degrees (-1)
-## Orientation: no change
-def L(self, numLayers, direction):
-    leftArm.grip(leftArm.gripMaxAngle)
-    rightArm.grip(rightArm.gripMaxAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(23, 0.02)
-    leftArm.moveRelative(20, 0.02)
-    time.sleep(0.11)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(1.5)
-    leftArm.grip(leftArm.gripCubeAngle)
-    time.sleep(0.5)
-    leftArm.rotate(direction)
-    time.sleep(0.5)
-    leftArm.grip(leftArm.gripMaxAngle)
-    rightArm.grip(rightArm.gripMaxAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(40, 0.02)
-    time.sleep(0.1)
-    leftArm.rotate(0)
-    leftArm.move(leftArm.moveInitAngle)
-    centerArm.moveSmooth(centerArm.moveInitAngle, 0.02)
-    time.sleep(0.1)
-    leftArm.grip(leftArm.gripCubeAngle)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(1)
-    
-# PO (Primary Operation) - rotate right layer 90 degrees (1) or -90 degrees (-1)
-## Orientation: no change
-def R(self, numLayers, direction):
-    rightArm.grip(rightArm.gripMaxAngle)
-    leftArm.grip(leftArm.gripMaxAngle)    
-    time.sleep(0.5)
-    centerArm.moveRelative(-20, 0.02)
-    rightArm.moveRelative(20, 0.02)
-    time.sleep(0.11)
-    leftArm.grip(leftArm.gripCubeAngle)
-    time.sleep(0.5)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(1.5)
-    rightArm.rotate(direction)
-    time.sleep(0.5)
-    rightArm.gripRelative(80, 0)
-    leftArm.grip(leftArm.gripMaxAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(-40, 0.02)
-    time.sleep(0.1)
-    rightArm.rotate(0)
-    rightArm.move(rightArm.moveInitAngle)
-    centerArm.moveSmooth(centerArm.moveInitAngle, 0.02)
-    time.sleep(0.1)
-    leftArm.grip(leftArm.gripCubeAngle)
-    rightArm.grip(rightArm.gripCubeAngle)
-    time.sleep(1)
+        #initialize self.arms object with all 3 self.arms (9 servos)
+        self.arms = Arms2.AllArms(self.cube)
 
-# PO (Primary Operation) - rotate cube 90 degrees (1) or -90 degrees (-1)
-## Orientation: cube will rotate 90 degrees (1) or -90 degrees (-1) wrt the Y axis
-def Y(self, direction):
-    centerArm.grip(centerArm.gripMaxAngle)
-    time.sleep(0.5)
-    arms.moveSideArms(-50, 0.01)
-    centerArm.rotate(-direction)
-    time.sleep(0.5)
-    arms.moveSideArms(50, 0.01)
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(1)
-    rightArm.grip(rightArm.gripMaxAngle)
-    leftArm.grip(leftArm.gripMaxAngle)
-    time.sleep(0.5)
-    arms.moveSideArms(-50, 0)
-    centerArm.rotate(0)
-    centerArm.moveRelative(15 * -direction, 0)
-    time.sleep(0.5)
-    arms.moveSideArms(50, 0)
-    rightArm.grip(rightArm.gripCubeAngle)
-    leftArm.grip(leftArm.gripCubeAngle)
-    time.sleep(1)
-    centerArm.grip(centerArm.gripMaxAngle)
-    time.sleep(0.5)
-    centerArm.moveRelative(30 * direction, 0)
-    time.sleep(0.5)
-    centerArm.move(centerArm.moveInitAngle)
-    time.sleep(0.5)
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(1)
+        self.leftArm = self.arms.leftArm
+        self.rightArm = self.arms.rightArm
+        self.centerArm = self.arms.centerArm
+
+        #setting the cube to solved state and printing it
+        self.cube.solvedState()
+        self.cube.printCube()
+
+        #prints the entire grip dictionary for each arm
+        #print(self.leftArm.gripDictionary)
+        #print(self.rightArm.gripDictionary)
+        #print(self.centerArm.gripDictionary)
     
-# PO (Primary Operation) - rotate Down layer 90 degrees (1) or -90 degrees (-1)
-## Orientation: no change
-def D(self, numLayers, direction):
-    centerArm.grip(centerArm.gripMaxAngle)
-    time.sleep(0.5)
-    arms.moveSideArms(-25, 0.01)
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(1)
-    centerArm.rotate(direction)
-    time.sleep(1)
-    centerArm.grip(centerArm.gripMaxAngle)
-    arms.moveSideArms(-20, 0.01)
-    centerArm.rotate(0)
-    time.sleep(0.5)
-    arms.moveSideArms(45, 0.01)
-    
-    centerArm.grip(centerArm.gripCubeAngle)
-    time.sleep(1)
-    
+    def __del__():
+        del self.leftArm
+        del self.rightArm
+        del self.centerArm
+        del self.arms
+        del self.cube
+        
+    # SO (Starting Operation) - takes cube from the user and manipulate it to the correct operating position
+    ## Orientation: cube will rotate 90 degrees wrt the Y axis
+    def acceptCube(self):
+        print("<[^-^]>: Accepting cube ... ", end = '')
+        self.centerArm.rotate(-1)
+        time.sleep(0.5)
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(40, 0)
+        self.rightArm.moveRelative(90, 0)
+        time.sleep(0.5)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.centerArm.grip(self.centerArm.gripInitAngle)
+        time.sleep(0.5)
+        self.rightArm.moveSmooth(self.rightArm.moveMinAngle, 0.01)
+        self.centerArm.grip(self.centerArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.centerArm.rotate(0)
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        time.sleep(0.1)
+        self.centerArm.moveRelative(-10, 0)
+        self.rightArm.moveSmooth(self.rightArm.moveInitAngle, 0.01)
+        time.sleep(0.5)
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.rightArm.grip(self.rightArm.gripInitAngle)
+        time.sleep(0.5)
+        self.centerArm.moveSmooth(self.centerArm.moveInitAngle, 0.02)
+        time.sleep(0.5)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(0.5)
+        print("[COMPLETE]")
+
+    # CO (Consistency Operation) - brings the cube to the correct operating height
+    ## Orientation: no change
+    def checkHeight(self):
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(-20, 0.01)
+        self.rightArm.rotate(1)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(50, 0.01)
+        time.sleep(0.1)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        self.centerArm.moveRelative(-50, 0.01)
+        self.rightArm.rotate(0)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(20, 0.01)
+        time.sleep(0.1)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(1)
+        
+    # EO (Ending Operation) - brings cube back to the starting starting position
+    ## Orientation: cube will rotate -90 degrees wrt the Y axis
+    def presentCube(self):
+        print("<[^-^]>: Presenting cube ... ", end = '')
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.rightArm.move(self.rightArm.moveMinAngle)
+        self.centerArm.move(self.centerArm.moveInitAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(40, 0.02)
+        self.centerArm.rotate(-1)
+        time.sleep(0.5)
+        self.rightArm.move(self.rightArm.moveInitAngle)
+        time.sleep(0.5)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(1.5)
+        self.centerArm.grip(self.centerArm.gripInitAngle)
+        time.sleep(0.5)
+        self.rightArm.moveRelative(90, 0.02)
+        time.sleep(0.5)
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.rightArm.grip(self.rightArm.gripInitAngle)
+        time.sleep(0.5)
+        self.rightArm.move(self.rightArm.moveInitAngle)
+        self.centerArm.move(self.centerArm.moveInitAngle)
+        time.sleep(0.5)
+        self.centerArm.rotate(0)
+        time.sleep(0.5)
+        self.centerArm.grip(self.centerArm.gripMaxAngle)
+        print("[COMPLETE]")
+
+    # PO (Primary Operation) - rotate left layer 90 degrees (1) or -90 degrees (-1)
+    ## Orientation: no change
+    def L(self, numLayers, direction):
+        print("<[^-^]>: Manipulating left face ... ", end = '')
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(23, 0.02)
+        self.leftArm.moveRelative(20, 0.02)
+        time.sleep(0.11)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(1.5)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.leftArm.rotate(direction)
+        time.sleep(0.5)
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(40, 0.02)
+        time.sleep(0.1)
+        self.leftArm.rotate(0)
+        self.leftArm.move(self.leftArm.moveInitAngle)
+        self.centerArm.moveSmooth(self.centerArm.moveInitAngle, 0.02)
+        time.sleep(0.1)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(1)
+        print("[COMPLETE]")
+        
+    # PO (Primary Operation) - rotate right layer 90 degrees (1) or -90 degrees (-1)
+    ## Orientation: no change
+    def R(self, numLayers, direction):
+        print("<[^-^]>: Manipulating right face ... ", end = '')
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        self.leftArm.grip(self.leftArm.gripMaxAngle)    
+        time.sleep(0.5)
+        self.centerArm.moveRelative(-20, 0.02)
+        self.rightArm.moveRelative(20, 0.02)
+        time.sleep(0.11)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        time.sleep(0.5)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(1.5)
+        self.rightArm.rotate(direction)
+        time.sleep(0.5)
+        self.rightArm.gripRelative(80, 0)
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(-40, 0.02)
+        time.sleep(0.1)
+        self.rightArm.rotate(0)
+        self.rightArm.move(self.rightArm.moveInitAngle)
+        self.centerArm.moveSmooth(self.centerArm.moveInitAngle, 0.02)
+        time.sleep(0.1)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        time.sleep(1)
+        print("[COMPLETE]")
+
+    # PO (Primary Operation) - rotate cube 90 degrees (1) or -90 degrees (-1)
+    ## Orientation: cube will rotate 90 degrees (1) or -90 degrees (-1) wrt the Y axis
+    def Y(self, direction):
+        print("<[^-^]>: Rotating cube ... ", end = '')
+        self.centerArm.grip(self.centerArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.arms.moveSideArms(-50, 0.01)
+        self.centerArm.rotate(-direction)
+        time.sleep(0.5)
+        self.arms.moveSideArms(50, 0.01)
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(1)
+        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.arms.moveSideArms(-50, 0)
+        self.centerArm.rotate(0)
+        self.centerArm.moveRelative(15 * -direction, 0)
+        time.sleep(0.5)
+        self.arms.moveSideArms(50, 0)
+        self.rightArm.grip(self.rightArm.gripCubeAngle)
+        self.leftArm.grip(self.leftArm.gripCubeAngle)
+        time.sleep(1)
+        self.centerArm.grip(self.centerArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.centerArm.moveRelative(30 * direction, 0)
+        time.sleep(0.5)
+        self.centerArm.move(self.centerArm.moveInitAngle)
+        time.sleep(0.5)
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(1)
+        print("[COMPLETE]")
+        
+    # PO (Primary Operation) - rotate Down layer 90 degrees (1) or -90 degrees (-1)
+    ## Orientation: no change
+    def D(self, numLayers, direction):
+        print("<[^-^]>: Manipulating bottom face ... ", end = '')
+        self.centerArm.grip(self.centerArm.gripMaxAngle)
+        time.sleep(0.5)
+        self.arms.moveSideArms(-25, 0.01)
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(1)
+        self.centerArm.rotate(direction)
+        time.sleep(1)
+        self.centerArm.grip(self.centerArm.gripMaxAngle)
+        self.arms.moveSideArms(-20, 0.01)
+        self.centerArm.rotate(0)
+        time.sleep(0.5)
+        self.arms.moveSideArms(45, 0.01)
+        
+        self.centerArm.grip(self.centerArm.gripCubeAngle)
+        time.sleep(1)
+        print("[COMPLETE]")
+        
 # # PO (Primary Operation) - rotate Up layer 90 degrees (1) or -90 degrees (-1)
 # ## Orientation: cube will rotate -90 degrees (1) or 90 degrees (-1) wrt the Y axis
 # def U(layers, direction):
@@ -224,32 +247,33 @@ def D(self, numLayers, direction):
 #     time.sleep(1)
 
 ############## Begin Testing ##############
-#centerArm.move(centerArm.moveMaxAngle)
+print("testing blah blah blah")
+#self.centerArm.move(self.centerArm.moveMaxAngle)
 #time.sleep(1)
-#leftArm.gripTest()
-#leftArm.grip3by3Test()
-#leftArm.rotateTest(1)
-#leftArm.moveTest(1)
-#leftArm.test()
-#centerArm.move(centerArm.moveInitAngle)
+#self.leftArm.gripTest()
+#self.leftArm.grip3by3Test()
+#self.leftArm.rotateTest(1)
+#self.leftArm.moveTest(1)
+#self.leftArm.test()
+#self.centerArm.move(self.centerArm.moveInitAngle)
 
-#centerArm.move(centerArm.moveMinAngle)
+#self.centerArm.move(self.centerArm.moveMinAngle)
 #time.sleep(1)
-#rightArm.gripTest()
-#rightArm.grip3by3Test()
-#rightArm.rotateTest(1)
-#rightArm.moveTest(1)
-#rightArm.test()
-#centerArm.move(centerArm.moveInitAngle)
+#self.rightArm.gripTest()
+#self.rightArm.grip3by3Test()
+#self.rightArm.rotateTest(1)
+#self.rightArm.moveTest(1)
+#self.rightArm.test()
+#self.centerArm.move(self.centerArm.moveInitAngle)
 
 #time.sleep(1)
-#centerArm.rotate(1)
+#self.centerArm.rotate(1)
 #time.sleep(2)
-#centerArm.gripTest()
-#centerArm.grip3by3Test()
-#centerArm.rotateTest(1)
-#centerArm.moveTest(1)
-#centerArm.test()
+#self.centerArm.gripTest()
+#self.centerArm.grip3by3Test()
+#self.centerArm.rotateTest(1)
+#self.centerArm.moveTest(1)
+#self.centerArm.test()
     
 #acceptCube()
 #L(1)
@@ -273,23 +297,18 @@ def D(self, numLayers, direction):
 
 #presentCube()
     
-#leftArm.grip(leftArm.gripMinAngle)
+#self.leftArm.grip(self.leftArm.gripMinAngle)
 #time.sleep(5)
-#leftArm.grip(leftArm.gripMaxAngle)
+#self.leftArm.grip(self.leftArm.gripMaxAngle)
 #time.sleep(5)
     
-#rightArm.grip(rightArm.gripCubeAngle)
+#self.rightArm.grip(self.rightArm.gripCubeAngle)
 #time.sleep(5)
-#rightArm.grip(rightArm.gripInitAngle)
-#print(rightArm.gripCubeAngle)
+#self.rightArm.grip(self.rightArm.gripInitAngle)
+#print(self.rightArm.gripCubeAngle)
 
 
 ############# Begin Execution ##############
 
 
 ########### Garbage Collection #############
-del leftArm
-del rightArm
-del centerArm
-del arms
-del cube

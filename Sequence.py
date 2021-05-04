@@ -1,6 +1,6 @@
 import math
-from CuBot2 import L, R, D, Y
-
+#from CuBot2 import L, R, D, Y
+from CuBot2 import CuBot
 # The below functions were used in testing without connecting to the actual robot
 # def L(self, layers, degree):
 #     pass
@@ -15,12 +15,13 @@ from CuBot2 import L, R, D, Y
 #     pass
 
 class Face(object): # Since python doens have Enum, made my own as it makes tracking code cleaner/simpiler
+    cuBot   = CuBot(54, 3)
     Front   = "F"
-    Left    = L
+    Left    = cuBot.L
     Back    = "B"
-    Right   = R
+    Right   = cuBot.R
     Up      = "U" #Up no Longer Exist, but keep in for coherency
-    Down    = D
+    Down    = cuBot.D
 Face = Face()   # Enum to signify face of Cube
 
 class Dir(object):
@@ -47,7 +48,7 @@ class Sequence(object):
     def __init__(self,input):   # Translate text into scramble class Sequence
         for char in input:     
             if char == 'y':     # No need to set degree since by defualt its 1
-                self.Face = Y
+                self.Face = Face.cuBot.Y
             if char == 'F':
                 self.Face = Face.Front
             elif char == 'L':
@@ -71,12 +72,12 @@ def perform(input):
     for s in input.split(): 
         sequence = Sequence(s)
 
-        if sequence.Face == Y:
+        if sequence.Face == Face.cuBot.Y:
             if sequence.Degree == 2:
-                Y(None, 1)
-                Y(None, 1)                
+                Face.cuBot.Y(1)
+                Face.cuBot.Y(1)                
             else:
-                Y(None, sequence.Degree)
+                Face.cuBot.Y(sequence.Degree)
             print("Rotate Entire Cube: {0} degrees (Using Bottom Arm)\n".format(sequence.Degree*90))
         else:
             width = sequence.Width

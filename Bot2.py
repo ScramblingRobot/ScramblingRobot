@@ -34,12 +34,12 @@ class Servo:
                 self.currentAngle -= 1
                 self.servo.angle = self.currentAngle
                 time.sleep(rate)
-        print ("Servo", self.index, "moved to angle", self.currentAngle*1.5)
+        #print ("Servo", self.index, "moved to angle", self.currentAngle*1.5)
         
     def moveFast(self, visualangle):
         self.currentAngle = round(visualangle/1.5)
         self.servo.angle = self.currentAngle
-        print ("Servo", self.index, "moved to angle", round(self.servo.angle*1.5))
+        #print ("Servo", self.index, "moved to angle", round(self.servo.angle*1.5))
 
 class Control:
     'Control all servos via I2C communication to PCA9685 controller'
