@@ -1,28 +1,23 @@
-lksadjf asdjflasdjfkl asl fdl
-asd
-f
- 
- a dsfasd 
- sad
+git clone
+	**look up new way of doing this (more secure)
+	clone to repository into a your local machine
 
- sdf
- asd
- fasdfasdff asdf asd as 
+git status
+	displays the current status
 
- ad a sfd 
-  
-  aa dsf 
-  a 
-   fdsf  
-    
-      d
-      saf 
-      d 
-      a
-       aa df 
+git add .
+	
 
-     sdf a 
+git commit -m "message"
 
-   asdf  a dsf  
+git push
 
-   f 
+git pull
+	equivalent to git fetch and git merge
+	can run into merge conflicts
+
+git branch
+
+git checkout
+
+git log
