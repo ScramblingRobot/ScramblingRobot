@@ -27,6 +27,7 @@ class Arm:
         self.populateDictionary(moveMinAngle, moveMinPosition, moveMaxAngle, moveMaxPosition, self.moveDictionary)
         self.gripCubeAngle = self.gripDictionary[cube.width]
         self.gripReleaseAngle = self.gripDictionary[cube.width + 5]
+        self.gripClearanceAngle = self.gripDictionary[cube.width + 15]
         
     def __del__(self):
         self.moveServo.moveFast(self.moveInitAngle)
@@ -36,8 +37,10 @@ class Arm:
         self.rotateServo.moveFast(self.rotateInitAngle)
         del self.rotateServo
         
-    def updateGripCubeAngle(self, cube):
+    def updateAngles(self, cube):
         self.gripCubeAngle = self.gripDictionary[cube.width]
+        self.gripReleaseAngle = self.gripDictionary[cube.width + 5]
+        self.gripClearanceAngle = self.gripDictionary[cube.width + 15]
             
     def populateDictionary(self, minAngle, minPosition, maxAngle, maxPosition, dictionary):
         currentPosition = minPosition
