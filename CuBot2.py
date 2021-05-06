@@ -26,6 +26,7 @@ class CuBot:
         #print(self.leftArm.moveDictionary)
         #print(self.rightArm.moveDictionary)
         #print(self.centerArm.moveDictionary)
+        #asdf
     
     def __del__():
         del self.leftArm
