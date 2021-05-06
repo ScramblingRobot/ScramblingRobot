@@ -69,7 +69,10 @@ class Sequence(object):
                 self.Degree = -1
 
 def perform(input):
-    for s in input.split(): 
+    Face.cuBot.updateCube(input[1], input[2])
+    Face.cuBot.acceptCube()
+
+    for s in input[0].split(): 
         sequence = Sequence(s)
 
         if sequence.Face == Face.cuBot.Y:
@@ -94,3 +97,5 @@ def perform(input):
         #         print("Rotate Left Arm: Layer {0} and {1} degrees\n".format(sequence.Width,sequence.Degree*90))
         #     else:
         #         print("Rotate Right Arm: Layer {0} and {1} degrees\n".format(sequence.Width,sequence.Degree*90))
+    
+    Face.cuBot.presentCube()

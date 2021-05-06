@@ -147,7 +147,8 @@ def transformToRobot(scramble):
 
         newScramble = newScramble + moves[i] + " "
         i += 1
-    return newScramble
+    return [newScramble, 54, size]
+    # CHANGE THE NUMBER IN THIS LINE TO CHANGE THE CUBE WIDTH
 
 
 def shiftclockwise(moves, i):
