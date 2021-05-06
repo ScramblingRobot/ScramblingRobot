@@ -3,6 +3,8 @@ from tkinter import filedialog
 import os
 from Sequence import perform
 
+CUBE_WIDTH = 54
+
 root = tk.Tk()
 
 root.title("CuBot")
@@ -147,7 +149,11 @@ def transformToRobot(scramble):
 
         newScramble = newScramble + moves[i] + " "
         i += 1
-    return [newScramble, 54, size]
+    return  {
+        "scramble": newScramble,
+        "width": CUBE_WIDTH,
+        "order": size
+    }
     # CHANGE THE NUMBER IN THIS LINE TO CHANGE THE CUBE WIDTH
 
 

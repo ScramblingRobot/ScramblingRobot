@@ -69,10 +69,10 @@ class Sequence(object):
                 self.Degree = -1
 
 def perform(input):
-    Face.cuBot.updateCube(input[1], input[2])
+    Face.cuBot.updateCube(input["width"], input["order"])
     Face.cuBot.acceptCube()
 
-    for s in input[0].split(): 
+    for s in input["scramble"].split(): 
         sequence = Sequence(s)
 
         if sequence.Face == Face.cuBot.Y:
