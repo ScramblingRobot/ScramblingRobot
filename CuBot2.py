@@ -23,9 +23,9 @@ class CuBot:
         #print(self.leftArm.gripDictionary)
         #print(self.rightArm.gripDictionary)
         #print(self.centerArm.gripDictionary)
-        #print(self.leftArm.moveDictionary)
-        #print(self.rightArm.moveDictionary)
-        #print(self.centerArm.moveDictionary)
+        print(self.leftArm.moveDictionary)
+        print(self.rightArm.moveDictionary)
+        print(self.centerArm.moveDictionary)
         #asdf
     
     def __del__():

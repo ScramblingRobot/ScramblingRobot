@@ -21,12 +21,10 @@ class Arm:
         self.gripMinAngle = gripMinAngle
         self.rotateClAngle = rotateClAngle
         self.rotateCcAngle = rotateCcAngle
-        #self.gripCubeAngle = 0
         self.gripDictionary = {-1 : -1}
         self.moveDictionary = {-1 : -1}
-        #self.initializeGripDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxDistance)
         self.populateDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxPosition, self.gripDictionary)
-        self.populateDictionary(moveMinAngle, 0, moveMaxAngle, moveMaxPosition, self.moveDictionary)
+        self.populateDictionary(moveMinAngle, moveMinPosition, moveMaxAngle, moveMaxPosition, self.moveDictionary)
         self.gripCubeAngle = self.gripDictionary[cube.width]
         
     def __del__(self):
@@ -39,32 +37,6 @@ class Arm:
         
     def updateGripCubeAngle(self, cube):
         self.gripCubeAngle = self.gripDictionary[cube.width]
-        
-    def initializeGripDictionary(self, minAngle, minDimension, maxAngle, maxDimension):
-        currentDimension = minDimension
-        m = (maxAngle - minAngle) / (maxDimension - minDimension)
-        b = 0
-        while currentDimension <= maxDimension:
-            if maxAngle - minAngle > 0:
-                b = minAngle
-                x = currentDimension - minDimension
-            else:
-                x = currentDimension - maxDimension
-            self.gripDictionary[currentDimension] = round(m * x + b)
-            currentDimension = currentDimension + 1
-    
-    def initializeMoveDictionary(self, minAngle, minPosition, maxAngle, maxPosition):
-        currentPosition = minPosition
-        m = (maxAngle - minAngle) / (maxPosition - minPosition)
-        b = 0
-        while currentPosition <= maxPosition:
-            if maxAngle - minAngle > 0:
-                b = minAngle
-                x = currentPosition - minPosition
-            else:
-                x = currentPosition - maxPosition
-            self.moveDictionary[currentPosition] = round(m * x + b)
-            currentPosition = currentPosition + 1
             
     def populateDictionary(self, minAngle, minPosition, maxAngle, maxPosition, dictionary):
         currentPosition = minPosition
@@ -75,6 +47,7 @@ class Arm:
                 b = minAngle
                 x = currentPosition - minPosition
             else:
+                b = maxAngle
                 x = currentPosition - maxPosition
             dictionary[currentPosition] = round(m * x + b)
             currentPosition = currentPosition + 1
