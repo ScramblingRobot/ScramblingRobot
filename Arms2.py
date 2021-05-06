@@ -26,6 +26,7 @@ class Arm:
         self.populateDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxPosition, self.gripDictionary)
         self.populateDictionary(moveMinAngle, moveMinPosition, moveMaxAngle, moveMaxPosition, self.moveDictionary)
         self.gripCubeAngle = self.gripDictionary[cube.width]
+        self.gripReleaseAngle = self.gripDictionary[cube.width + 5]
         
     def __del__(self):
         self.moveServo.moveFast(self.moveInitAngle)

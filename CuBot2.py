@@ -23,12 +23,12 @@ class CuBot:
         #print(self.leftArm.gripDictionary)
         #print(self.rightArm.gripDictionary)
         #print(self.centerArm.gripDictionary)
-        print(self.leftArm.moveDictionary)
-        print(self.rightArm.moveDictionary)
-        print(self.centerArm.moveDictionary)
+        #print(self.leftArm.moveDictionary)
+        #print(self.rightArm.moveDictionary)
+        #print(self.centerArm.moveDictionary)
         #asdf
     
-    def __del__():
+    def __del__(self):
         del self.leftArm
         del self.rightArm
         del self.centerArm
@@ -60,7 +60,7 @@ class CuBot:
         self.centerArm.grip(self.centerArm.gripMaxAngle)
         time.sleep(0.5)
         self.centerArm.rotate(0)
-        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.leftArm.grip(self.leftArm.gripReleaseAngle)
         time.sleep(0.1)
         self.centerArm.moveRelative(-10, 0)
         self.rightArm.moveSmooth(self.rightArm.moveInitAngle, 0.01)
@@ -113,6 +113,7 @@ class CuBot:
         self.centerArm.rotate(-1)
         time.sleep(0.5)
         self.rightArm.move(self.rightArm.moveInitAngle)
+        self.leftArm.grip(self.leftArm.gripInitAngle)
         time.sleep(0.5)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(1.5)
@@ -136,8 +137,8 @@ class CuBot:
     ## Orientation: no change
     def L(self, numLayers, direction):
         print("<[^-^]>: Manipulating left face ... ", end = '')
-        self.leftArm.grip(self.leftArm.gripMaxAngle)
-        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        self.leftArm.grip(self.leftArm.gripDictionary[self.cube.width + 15])
+        self.rightArm.grip(self.rightArm.gripDictionary[self.cube.width + 15])
         time.sleep(0.5)
         self.centerArm.moveRelative(23, 0.02)
         self.leftArm.moveRelative(20, 0.02)
@@ -148,8 +149,8 @@ class CuBot:
         time.sleep(0.5)
         self.leftArm.rotate(direction)
         time.sleep(0.5)
-        self.leftArm.grip(self.leftArm.gripMaxAngle)
-        self.rightArm.grip(self.rightArm.gripMaxAngle)
+        self.leftArm.grip(self.leftArm.gripReleaseAngle)
+        self.rightArm.grip(self.rightArm.gripDictionary[self.cube.width + 15])
         time.sleep(0.5)
         self.centerArm.moveRelative(40, 0.02)
         time.sleep(0.1)
@@ -166,8 +167,8 @@ class CuBot:
     ## Orientation: no change
     def R(self, numLayers, direction):
         print("<[^-^]>: Manipulating right face ... ", end = '')
-        self.rightArm.grip(self.rightArm.gripMaxAngle)
-        self.leftArm.grip(self.leftArm.gripMaxAngle)    
+        self.rightArm.grip(self.rightArm.gripDictionary[self.cube.width + 15])
+        self.leftArm.grip(self.leftArm.gripDictionary[self.cube.width + 15])    
         time.sleep(0.5)
         self.centerArm.moveRelative(-20, 0.02)
         self.rightArm.moveRelative(20, 0.02)
@@ -178,8 +179,8 @@ class CuBot:
         time.sleep(1.5)
         self.rightArm.rotate(direction)
         time.sleep(0.5)
-        self.rightArm.gripRelative(80, 0)
-        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.rightArm.grip(self.rightArm.gripReleaseAngle)
+        self.leftArm.grip(self.leftArm.gripDictionary[self.cube.width + 15])
         time.sleep(0.5)
         self.centerArm.moveRelative(-40, 0.02)
         time.sleep(0.1)
@@ -204,8 +205,8 @@ class CuBot:
         self.arms.moveSideArms(50, 0.01)
         self.centerArm.grip(self.centerArm.gripCubeAngle)
         time.sleep(1)
-        self.rightArm.grip(self.rightArm.gripMaxAngle)
-        self.leftArm.grip(self.leftArm.gripMaxAngle)
+        self.rightArm.grip(self.rightArm.gripReleaseAngle)
+        self.leftArm.grip(self.leftArm.gripReleaseAngle)
         time.sleep(0.5)
         self.arms.moveSideArms(-50, 0)
         self.centerArm.rotate(0)
@@ -253,7 +254,6 @@ class CuBot:
 #     time.sleep(1)
 
 ############## Begin Testing ##############
-print("testing blah blah blah")
 #self.centerArm.move(self.centerArm.moveMaxAngle)
 #time.sleep(1)
 #self.leftArm.gripTest()
