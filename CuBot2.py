@@ -8,9 +8,9 @@ import time
 class CuBot:
     'Cubot Object'
     
-    def __init__ (self, cubeWidth, cubeLayers):        
-        #initialize cube object with cube's width and number of layers
-        self.cube = Cube.Cube(cubeWidth, cubeLayers)
+    def __init__ (self):        
+        #initial cube object created upon initialization of CuBot object (54mm width, 3x3)
+        self.cube = Cube.Cube(54, 3)
 
         #initialize self.arms object with all 3 self.arms (9 servos)
         self.arms = Arms2.AllArms(self.cube)
@@ -19,14 +19,13 @@ class CuBot:
         self.rightArm = self.arms.rightArm
         self.centerArm = self.arms.centerArm
 
-        #setting the cube to solved state and printing it
-        self.cube.solvedState()
-        self.cube.printCube()
-
-        #prints the entire grip dictionary for each arm
+        #prints the entire dictionary for each arm
         #print(self.leftArm.gripDictionary)
         #print(self.rightArm.gripDictionary)
         #print(self.centerArm.gripDictionary)
+        #print(self.leftArm.moveDictionary)
+        #print(self.rightArm.moveDictionary)
+        #print(self.centerArm.moveDictionary)
     
     def __del__():
         del self.leftArm
@@ -34,6 +33,12 @@ class CuBot:
         del self.centerArm
         del self.arms
         del self.cube
+        
+    # This function must be called before operating on a cube, providing its width and order
+    def updateCube(self, width, order):
+        del self.cube
+        self.cube = Cube.Cube(width, order)
+        self.arms.updateGripCubeAngle(cube)
         
     # SO (Starting Operation) - takes cube from the user and manipulate it to the correct operating position
     ## Orientation: cube will rotate 90 degrees wrt the Y axis
@@ -43,8 +48,8 @@ class CuBot:
         time.sleep(0.5)
         self.centerArm.grip(self.centerArm.gripCubeAngle)
         time.sleep(0.5)
-        self.centerArm.moveRelative(40, 0)
-        self.rightArm.moveRelative(90, 0)
+        self.centerArm.moveRelative(40, 0) #54mm cube
+        self.rightArm.moveRelative(90, 0) #54mm cube
         time.sleep(0.5)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(0.5)

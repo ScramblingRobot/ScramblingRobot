@@ -15,7 +15,7 @@ from CuBot2 import CuBot
 #     pass
 
 class Face(object): # Since python doens have Enum, made my own as it makes tracking code cleaner/simpiler
-    cuBot   = CuBot(54, 3)
+    cuBot   = CuBot()
     Front   = "F"
     Left    = cuBot.L
     Back    = "B"

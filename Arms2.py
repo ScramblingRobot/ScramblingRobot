@@ -7,7 +7,7 @@ import time
 class Arm:
     'Arm object'
     
-    def __init__(self, cube, moveServo, gripServo, rotateServo, moveMaxAngle, moveMinAngle, gripMaxAngle, gripMinAngle, gripMaxDistance, rotateClAngle, rotateCcAngle):
+    def __init__(self, cube, moveServo, gripServo, rotateServo, moveMaxAngle, moveMinAngle, moveMaxPosition, moveMinPosition, gripMaxAngle, gripMinAngle, gripMaxPosition, rotateClAngle, rotateCcAngle):
         self.moveServo = moveServo
         self.gripServo = gripServo
         self.rotateServo = rotateServo
@@ -21,9 +21,12 @@ class Arm:
         self.gripMinAngle = gripMinAngle
         self.rotateClAngle = rotateClAngle
         self.rotateCcAngle = rotateCcAngle
-        self.gripCubeAngle = 0
-        self.gripDictionary = {0 : 0}
-        self.initializeGripDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxDistance)
+        #self.gripCubeAngle = 0
+        self.gripDictionary = {-1 : -1}
+        self.moveDictionary = {-1 : -1}
+        #self.initializeGripDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxDistance)
+        self.populateDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxPosition, self.gripDictionary)
+        self.populateDictionary(moveMinAngle, 0, moveMaxAngle, moveMaxPosition, self.moveDictionary)
         self.gripCubeAngle = self.gripDictionary[cube.width]
         
     def __del__(self):
@@ -33,6 +36,9 @@ class Arm:
         del self.gripServo
         self.rotateServo.moveFast(self.rotateInitAngle)
         del self.rotateServo
+        
+    def updateGripCubeAngle(self, cube):
+        self.gripCubeAngle = self.gripDictionary[cube.width]
         
     def initializeGripDictionary(self, minAngle, minDimension, maxAngle, maxDimension):
         currentDimension = minDimension
@@ -46,6 +52,32 @@ class Arm:
                 x = currentDimension - maxDimension
             self.gripDictionary[currentDimension] = round(m * x + b)
             currentDimension = currentDimension + 1
+    
+    def initializeMoveDictionary(self, minAngle, minPosition, maxAngle, maxPosition):
+        currentPosition = minPosition
+        m = (maxAngle - minAngle) / (maxPosition - minPosition)
+        b = 0
+        while currentPosition <= maxPosition:
+            if maxAngle - minAngle > 0:
+                b = minAngle
+                x = currentPosition - minPosition
+            else:
+                x = currentPosition - maxPosition
+            self.moveDictionary[currentPosition] = round(m * x + b)
+            currentPosition = currentPosition + 1
+            
+    def populateDictionary(self, minAngle, minPosition, maxAngle, maxPosition, dictionary):
+        currentPosition = minPosition
+        m = (maxAngle - minAngle) / (maxPosition - minPosition)
+        b = 0
+        while currentPosition <= maxPosition:
+            if maxAngle - minAngle > 0:
+                b = minAngle
+                x = currentPosition - minPosition
+            else:
+                x = currentPosition - maxPosition
+            dictionary[currentPosition] = round(m * x + b)
+            currentPosition = currentPosition + 1
         
     def move(self, angle):
         self.moveServo.moveFast(angle)
@@ -169,15 +201,20 @@ class AllArms:
     
     def __init__(self, cube):
         self.bot = Bot2.Control()
-        #move servo, grip servo, rotate servo, moveMax, moveMin, gripMax, gripMin, gripMaxDist, rotateCl, rotateCc     
-        self.leftArm   = Arm(cube, self.bot.servo[5], self.bot.servo[7], self.bot.servo[4], 160,  45,   0, 245, 127, 225, 45)
-        self.rightArm  = Arm(cube, self.bot.servo[6], self.bot.servo[8], self.bot.servo[2],  60, 230,   0, 245, 127, 227, 45)
-        self.centerArm = Arm(cube, self.bot.servo[1], self.bot.servo[9], self.bot.servo[0], 190,  12, 190,  78, 100, 220, 40)
+        #move servo, grip servo, rotate servo, moveMax, moveMin, moveMaxPos, moveMinPos, gripMax, gripMin, gripMaxPos, rotateCl, rotateCc     
+        self.leftArm   = Arm(cube, self.bot.servo[5], self.bot.servo[7], self.bot.servo[4], 160,  45, 90, 0,   0, 245, 127, 225, 45)
+        self.rightArm  = Arm(cube, self.bot.servo[6], self.bot.servo[8], self.bot.servo[2],  60, 230, 90, 0,   0, 245, 127, 227, 45)
+        self.centerArm = Arm(cube, self.bot.servo[1], self.bot.servo[9], self.bot.servo[0], 190,  12, 90, 0, 190,  78, 100, 220, 40)
         
     def __del__(self):
         del self.leftArm
         del self.rightArm
         del self.centerArm
+        
+    def updateGripCubeAngle(self, cube):
+        self.leftArm.updateGripCubeAngle(cube)
+        self.rightArm.updateGripCubeAngle(cube)
+        self.centerArm.updateGripCubeAngle(cube)
         
     #move all arms to their staring position, centerArm takes cube
     def startPosition(self):
