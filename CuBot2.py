@@ -24,7 +24,7 @@ class CuBot:
         #print(self.rightArm.gripDictionary)
         #print(self.centerArm.gripDictionary)
         #print(self.leftArm.moveDictionary)
-        #print(self.rightArm.moveDictionary)
+        print(self.rightArm.moveDictionary)
         #print(self.centerArm.moveDictionary)
         #asdf
     
@@ -51,10 +51,8 @@ class CuBot:
         time.sleep(0.5)
         self.centerArm.rotate(-1)
         time.sleep(0.5)
-        self.centerArm.moveRelative(40, 0) #54mm cube
-        #self.centerArm.moveSmooth(self.centerArm.moveDictionary[p - round(cube.width / 2)], 0.01)
-        self.rightArm.moveRelative(90, 0) #54mm cube
-        #self.rightArm.moveSmooth(self.rightArm.moveDictionary[maxP - round(cube.width / 2) + c], 0) #c is constant in mm that will take maxP to floor
+        self.centerArm.moveSmooth(self.centerArm.moveDictionary[85 - round(self.cube.width / 2)], 0.01) #move1
+        self.rightArm.moveSmooth(self.rightArm.moveDictionary[93 - round(self.cube.width / 2) + 25], 0) #move2
         time.sleep(0.5)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(0.5)
@@ -62,16 +60,16 @@ class CuBot:
         time.sleep(0.5)
         self.rightArm.moveSmooth(self.rightArm.moveMinAngle, 0.01)
         self.centerArm.grip(self.centerArm.gripClearanceAngle)
-        time.sleep(0.5)
+        time.sleep(1)
         self.centerArm.rotate(0)
         self.leftArm.grip(self.leftArm.gripClearanceAngle)
-        time.sleep(0.1)
+        time.sleep(0.5)
         self.centerArm.moveRelative(-10, 0)
         self.rightArm.moveSmooth(self.rightArm.moveInitAngle, 0.01)
         time.sleep(0.5)
         self.centerArm.grip(self.centerArm.gripCubeAngle)
         time.sleep(0.5)
-        self.rightArm.grip(self.rightArm.gripReleaseAngle)
+        self.rightArm.grip(self.rightArm.gripClearanceAngle)
         time.sleep(0.5)
         self.centerArm.moveSmooth(self.centerArm.moveInitAngle, 0.02)
         time.sleep(0.5)
