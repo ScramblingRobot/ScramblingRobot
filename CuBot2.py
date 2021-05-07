@@ -39,7 +39,7 @@ class CuBot:
     def updateCube(self, width, order):
         del self.cube
         self.cube = Cube.Cube(width, order)
-        self.arms.updateAngles(cube)
+        self.arms.updateAngles(self.cube)
         
     # SO (Starting Operation) - takes cube from the user and manipulate it to the correct operating position
     ## Orientation: cube will rotate 90 degrees wrt the Y axis

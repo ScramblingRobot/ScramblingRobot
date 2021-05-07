@@ -188,10 +188,10 @@ class AllArms:
         del self.rightArm
         del self.centerArm
         
-    def updateGripCubeAngle(self, cube):
-        self.leftArm.updateGripCubeAngle(cube)
-        self.rightArm.updateGripCubeAngle(cube)
-        self.centerArm.updateGripCubeAngle(cube)
+    def updateAngles(self, cube):
+        self.leftArm.updateAngles(cube)
+        self.rightArm.updateAngles(cube)
+        self.centerArm.updateAngles(cube)
         
     #move all arms to their staring position, centerArm takes cube
     def startPosition(self):

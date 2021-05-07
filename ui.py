@@ -34,7 +34,7 @@ open_round.pack()
 
 
 def send(scramble):
-    print(len(scramble.split(" ")))
+    print("Number of moves: %d" % (len(scramble.split(" "))))
     print(transformToRobot(scramble))
     perform(transformToRobot(scramble))
 
