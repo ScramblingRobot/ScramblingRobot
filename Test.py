@@ -2,7 +2,10 @@ from CuBot2 import CuBot
 import time
 
 cuBot = CuBot()
-cuBot.updateCube(61, 4)
+cuBot.updateCube(54, 4)
+#7x7: 69mm
+#5x5, 4x4: 60mm
+#3x3: 54mm
 
 def testAcceptCube():
     cuBot.acceptCube()
@@ -46,7 +49,7 @@ def testMove(arm, position, waitTime):
 def unitTestAcceptCube(moveNumber):
     if moveNumber == 1:
         cubeWidth = 54
-        targetPosition = 85
+        targetPosition = 90
         
         cuBot.centerArm.grip(cuBot.centerArm.gripDictionary[cubeWidth])
         time.sleep(1)
@@ -72,14 +75,19 @@ def unitTestAcceptCube(moveNumber):
         testMove(cuBot.centerArm, 31, 1)
         
 ######### Begin Testing ##########
-#testAcceptCube()
-#testPresentCube()
+testAcceptCube()
+#time.sleep(10)
 #testCheckHeight()
+#testL(1, 1)
+#testL(2, 1)
+#testL(1, -1)
 #testL(2, -1)
 #testR(1, 1)
 #testD(1, 1)
 #testY(1, 1)
-#testGrip(cuBot.centerArm, 79, 5)
+testPresentCube()
+
+#testGrip(cuBot.rightArm, 60, 5)
 #testMove(cuBot.rightArm, 46, 1)
 #unitTestAcceptCube(1)
 #unitTestAcceptCube(2)
@@ -87,6 +95,6 @@ def unitTestAcceptCube(moveNumber):
 ############## Finished ###############
 # gripDictionary calibration for all 3 arms
 # moveDictionary calibration for center and right arm
-# primary operating-function acceptCube() calibration to support variability in cube width and order
+# primary operating-functions acceptCube() and presentCube() calibration to support variability in cube width and order
 
 del cuBot
