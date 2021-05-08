@@ -181,7 +181,7 @@ class AllArms:
         #move servo, grip servo, rotate servo, moveMax, moveMin, moveMaxPos, moveMinPos, gripMax, gripMin, gripMaxPos, rotateCl, rotateCc     
         self.leftArm   = Arm(cube, self.bot.servo[5], self.bot.servo[7], self.bot.servo[4], 160,  45, 90, 0,   0, 245, 129, 225, 45)
         self.rightArm  = Arm(cube, self.bot.servo[6], self.bot.servo[8], self.bot.servo[2],  60, 230, 93, 0,   0, 245, 129, 227, 45)
-        self.centerArm = Arm(cube, self.bot.servo[1], self.bot.servo[9], self.bot.servo[0], 190,  12, 98, 0, 270,  81, 110, 220, 40)
+        self.centerArm = Arm(cube, self.bot.servo[1], self.bot.servo[9], self.bot.servo[0], 190,  12, 98, 0, 270,  81, 107, 220, 40)
         
     def __del__(self):
         del self.leftArm
