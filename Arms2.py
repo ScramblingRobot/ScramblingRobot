@@ -26,8 +26,8 @@ class Arm:
         self.populateDictionary(gripMinAngle, 54, gripMaxAngle, gripMaxPosition, self.gripDictionary)
         self.populateDictionary(moveMinAngle, moveMinPosition, moveMaxAngle, moveMaxPosition, self.moveDictionary)
         self.gripCubeAngle = self.gripDictionary[cube.width]
-        self.gripReleaseAngle = self.gripDictionary[cube.width + 15]
-        self.gripClearanceAngle = self.gripDictionary[cube.width + 25]
+        self.gripReleaseAngle = self.gripDictionary[cube.width + 20]
+        self.gripClearanceAngle = self.gripDictionary[cube.width + 35]
         
     def __del__(self):
         self.moveServo.moveFast(self.moveInitAngle)
@@ -39,8 +39,8 @@ class Arm:
         
     def updateAngles(self, cube):
         self.gripCubeAngle = self.gripDictionary[cube.width]
-        self.gripReleaseAngle = self.gripDictionary[cube.width + 15]
-        self.gripClearanceAngle = self.gripDictionary[cube.width + 25]
+        self.gripReleaseAngle = self.gripDictionary[cube.width + 20]
+        self.gripClearanceAngle = self.gripDictionary[cube.width + 35]
             
     def populateDictionary(self, minAngle, minPosition, maxAngle, maxPosition, dictionary):
         currentPosition = minPosition
@@ -179,8 +179,8 @@ class AllArms:
     def __init__(self, cube):
         self.bot = Bot2.Control()
         #move servo, grip servo, rotate servo, moveMax, moveMin, moveMaxPos, moveMinPos, gripMax, gripMin, gripMaxPos, rotateCl, rotateCc     
-        self.leftArm   = Arm(cube, self.bot.servo[5], self.bot.servo[7], self.bot.servo[4], 160,  45, 90, 0,   0, 245, 127, 225, 45)
-        self.rightArm  = Arm(cube, self.bot.servo[6], self.bot.servo[8], self.bot.servo[2],  60, 230, 93, 0,   0, 245, 127, 227, 45)
+        self.leftArm   = Arm(cube, self.bot.servo[5], self.bot.servo[7], self.bot.servo[4], 160,  45, 90, 0,   0, 245, 129, 225, 45)
+        self.rightArm  = Arm(cube, self.bot.servo[6], self.bot.servo[8], self.bot.servo[2],  60, 230, 93, 0,   0, 245, 129, 227, 45)
         self.centerArm = Arm(cube, self.bot.servo[1], self.bot.servo[9], self.bot.servo[0], 190,  12, 98, 0, 270,  81, 110, 220, 40)
         
     def __del__(self):
