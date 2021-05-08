@@ -60,7 +60,7 @@ class Control:
         
         self.servo.append(Servo(4, Control.kit, 4, 450, 2385, round(135/1.5))) #left Rotate
         self.servo.append(Servo(5, Control.kit, 5, 480, 2400, round(135/1.5 - 5))) #left Move
-        self.servo.append(Servo(6, Control.kit, 6, 485, 2420, round(135/1.5 + 6))) #right Move
+        self.servo.append(Servo(6, Control.kit, 6, 485, 2420, round(135/1.5 + 8))) #right Move
         self.servo.append(Servo(7, Control.kit, 7, 510, 2405, round(135/1.5))) #left Grip
         self.servo.append(Servo(8, Control.kit, 8, 520, 2430, round(135/1.5))) #right Grip
         self.servo.append(Servo(9, Control.kit, 9, 520, 2430, round(135/1.5 + 30))) #center Grip
