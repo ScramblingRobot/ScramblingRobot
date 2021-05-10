@@ -45,7 +45,7 @@ class CuBot:
     # SO (Starting Operation) - takes cube from the user and manipulate it to the correct operating position
     ## Orientation: cube will rotate 90 degrees wrt the Y axis
     def acceptCube(self):
-        print("<[^-^]>: Accepting cube ... ", end = '')
+        print("<[^-^]>: Accepting cube")
         #self.centerArm.grip(self.centerArm.gripClearanceAngle)
         #time.sleep(5)
         self.centerArm.grip(self.centerArm.gripCubeAngle)
@@ -80,12 +80,11 @@ class CuBot:
         self.leftArm.grip(self.leftArm.gripCubeAngle)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(0.5)
-        print("[COMPLETE]")
 
     # CO (Consistency Operation) - brings the cube to the correct operating height
     ## Orientation: no change
     def checkHeight(self):
-        print("<[^-^]>: Resetting cube's height ... ", end = '')
+        print("<[^-^]>: Resetting cube's height")
         self.leftArm.grip(self.leftArm.gripDictionary[100])
         self.rightArm.grip(self.rightArm.gripDictionary[self.cube.width + 60])
         self.leftArm.move(self.leftArm.moveInitAngle)
@@ -130,12 +129,11 @@ class CuBot:
         self.leftArm.grip(self.leftArm.gripCubeAngle)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(1)
-        print("[COMPLETE]")
         
     # EO (Ending Operation) - brings cube back to the starting starting position
     ## Orientation: cube will rotate -90 degrees wrt the Y axis
     def presentCube(self):
-        print("<[^-^]>: Presenting cube ... ", end = '')
+        print("<[^-^]>: Presenting cube")
         self.leftArm.grip(self.leftArm.gripMaxAngle)
         self.rightArm.grip(self.rightArm.gripMaxAngle)
         time.sleep(0.5)
@@ -167,12 +165,11 @@ class CuBot:
         #self.centerArm.grip(self.centerArm.gripClearanceAngle)
         #time.sleep(5)
         self.centerArm.grip(self.centerArm.gripInitAngle)
-        print("[COMPLETE]")
 
     # PO (Primary Operation) - rotate left layer 90 degrees (1) or -90 degrees (-1)
     ## Orientation: no change
     def L(self, numLayers, direction):
-        print("<[^-^]>: Manipulating left face ... ", end = '')
+        print("<[^-^]>: Manipulating left face")
         self.leftArm.grip(self.leftArm.gripClearanceAngle)
         self.rightArm.grip(self.rightArm.gripClearanceAngle)
         time.sleep(0.5)
@@ -201,13 +198,12 @@ class CuBot:
         self.leftArm.grip(self.leftArm.gripCubeAngle)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(1)
-        print("[COMPLETE]")
         self.checkHeight()
         
     # PO (Primary Operation) - rotate right layer 90 degrees (1) or -90 degrees (-1)
     ## Orientation: no change
     def R(self, numLayers, direction):
-        print("<[^-^]>: Manipulating right face ... ", end = '')
+        print("<[^-^]>: Manipulating right face")
         self.rightArm.grip(self.rightArm.gripClearanceAngle)
         self.leftArm.grip(self.leftArm.gripClearanceAngle)    
         time.sleep(0.5)
@@ -252,14 +248,13 @@ class CuBot:
         self.leftArm.grip(self.leftArm.gripCubeAngle)
         self.rightArm.grip(self.rightArm.gripCubeAngle)
         time.sleep(1)
-        print("[COMPLETE]")
         self.checkHeight()
 
     # PO (Primary Operation) - rotate cube 90 degrees (1) or -90 degrees (-1)
     ## Orientation: cube will rotate 90 degrees (1) or -90 degrees (-1) wrt the Y axis
     def Y(self, direction):
-        print("<[^-^]>: Rotating cube ... ", end = '')
-        self.centerArm.grip(self.centerArm.gripReleaseAngle)
+        print("<[^-^]>: Rotating cube")
+        self.centerArm.grip(self.centerArm.gripClearanceAngle)
         time.sleep(0.5)
         self.arms.moveSideArms(-50, 0.01)
         self.centerArm.rotate(-direction)
@@ -287,13 +282,12 @@ class CuBot:
         time.sleep(0.5)
         self.centerArm.grip(self.centerArm.gripCubeAngle)
         time.sleep(1)
-        print("[COMPLETE]")
         self.checkHeight()
         
     # PO (Primary Operation) - rotate Down layer 90 degrees (1) or -90 degrees (-1)
     ## Orientation: no change
     def D(self, numLayers, direction):
-        print("<[^-^]>: Manipulating bottom face ... ", end = '')
+        print("<[^-^]>: Manipulating bottom face")
         if direction == -1:
             self.centerArm.grip(self.centerArm.gripClearanceAngle)
             time.sleep(0.5)
@@ -338,8 +332,6 @@ class CuBot:
             time.sleep(0.5)
             self.centerArm.move(self.centerArm.moveInitAngle) #offset
             time.sleep(0.5)
-            
-        print("[COMPLETE]")
         self.checkHeight()
         
 # # PO (Primary Operation) - rotate Up layer 90 degrees (1) or -90 degrees (-1)
