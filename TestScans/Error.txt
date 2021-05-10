@@ -1,0 +1,11 @@
+image saved at:
+/home/pi/Desktop/mode5_.jpg
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/tkinter/__init__.py", line 1705, in __call__
+    return self.func(*args)
+  File "/home/pi/Desktop/ScramblingRobot/ui.py", line 93, in scan
+    cubewidth = cMeasure(imagelocation + extension)
+  File "/home/pi/Desktop/ScramblingRobot/IPmeasure.py", line 28, in cMeasure
+    c = max(contours, key = cv2.contourArea);
+ValueError: max() arg is an empty sequence
