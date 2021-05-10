@@ -2,8 +2,12 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 from Sequence import perform
+import time
+from picamera import PiCamera
+from IPmeasure import *
 
 CUBE_WIDTH = 54
+cubewidth = 54 # this one is what the image processing gives
 
 root = tk.Tk()
 
@@ -73,6 +77,24 @@ def send_e2():
     if scramble_file is not None:
         send(lines[6])
 
+def scan():
+    camera = PiCamera()
+    imagelocation = '/home/pi/Desktop/mode5_'
+    extension = '.jpg'
+    camera.rotation = 180 #flips the image upsidedown if the camera is
+    camera.sensor_mode = 5 #there are different modes with different FOV, 5 worked best
+    global cubewidth
+    try:
+        camera.start_preview()
+        time.sleep(5)
+        camera.capture(imagelocation + extension)
+        print('image saved at:')
+        print(imagelocation + extension)
+        cubewidth = cMeasure(imagelocation + extension)
+        print("Cube width (mm): " + cubewidth)
+    finally:
+        camera.stop_preview()
+        camera.close()
 
 tk.Button(root, text="1", command=send_1).pack()
 tk.Button(root, text="2", command=send_2).pack()
@@ -81,6 +103,7 @@ tk.Button(root, text="4", command=send_4).pack()
 tk.Button(root, text="5", command=send_5).pack()
 tk.Button(root, text="e1", command=send_e1).pack()
 tk.Button(root, text="e2", command=send_e2).pack()
+tk.Button(root, text="Scan Cube", command=scan).pack()
 
 
 def transformToRobot(scramble):
