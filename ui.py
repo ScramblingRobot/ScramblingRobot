@@ -91,7 +91,8 @@ def scan():
         print('image saved at:')
         print(imagelocation + extension)
         cubewidth = cMeasure(imagelocation + extension)
-        print("Cube width (mm): " + cubewidth)
+        #print("Cube width (mm): " + cubewidth)
+        print("Cube width (mm): %d" % (cubewidth))
     finally:
         camera.stop_preview()
         camera.close()
