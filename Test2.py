@@ -109,7 +109,7 @@ def demoSequence():
 
 testall = 0 #0 or 1, enables the additional test at the end moving each servo
 testone = 0 #0 or 1, enables the individual servo test
-testcamera = 0 #0 or 1, whether to have the camera take a picture
+testcamera = 1 #0 or 1, whether to have the camera take a picture
 testextended = 0 #0 or 1, tests additional angles between 180 and 270
 testfull = 0 #0 or 1, enables additional full range angle test
 testprecise = 0 #0 or 1, enables precise angle testing
@@ -129,7 +129,7 @@ if testcamera == 1:
         camera.start_preview()
         time.sleep(1)
         for i in range (3):
-            time.sleep(10)
+            time.sleep(1)
             camera.capture(imagelocation + str(i) + extension)
             print('image saved at:')
             print(imagelocation + str(i) + extension)
