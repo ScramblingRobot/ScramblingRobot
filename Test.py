@@ -2,7 +2,7 @@ from CuBot2 import CuBot
 import time
 
 cuBot = CuBot()
-cuBot.updateCube(60, 4)
+cuBot.updateCube(54, 3)
 #7x7: 69mm
 #5x5, 4x4: 60mm
 #3x3: 54mm
@@ -25,7 +25,7 @@ def testR(numLayers, direction):
 def testD(numLayers, direction):
     cuBot.D(numLayers, direction)
 
-def testY(numlayers, direction):
+def testY(direction):
     cuBot.Y(direction)
     
 def testGrip(arm, position, waitTime):
@@ -75,24 +75,25 @@ def unitTestAcceptCube(moveNumber):
         testMove(cuBot.centerArm, 31, 1)
         
 ######### Begin Testing ##########
-testAcceptCube()
+#testAcceptCube()
 #time.sleep(10)
 #testCheckHeight()
-testL(1, 1)
+#testL(1, 1)
 #testL(2, 1)
-testL(1, -1)
+#testY(1)
+#testL(1, -1)
 #testL(2, -1)
-testCheckHeight()
-testR(1, 1)
+#testCheckHeight()
+#testR(1, 1)
 #testR(2, 1)
-testR(1, -1)
+#testR(1, -1)
 #testR(2, -1)
-testCheckHeight()
+#testCheckHeight()
 #testD(1, 1)
-#testY(1, 1)
-testPresentCube()
+#testY(-1)
+#testPresentCube()
 
-#testGrip(cuBot.centerArm, 54, 3)
+testGrip(cuBot.centerArm, 54, 3)
 #testMove(cuBot.rightArm, 46, 1)
 #unitTestAcceptCube(1)
 #unitTestAcceptCube(2)
