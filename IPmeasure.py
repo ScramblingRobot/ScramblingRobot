@@ -8,12 +8,14 @@ import numpy;
 def cMeasure(name):
 	filename = name;
 	img = cv2.imread(filename);
+	img = cv2.rotate(img, cv2.cv2.ROTATE_180);
 	height, width, channels = img.shape;
 
 	#height = math.trunc(height/2.5);
 	orig = img.copy()
 	grayimg = orig.copy()
-	img = img[320:420,670:1680]
+	#img = img[320:420,670:1680]
+	img = img[355:445,800:1480]
 	
 	img = cv2.resize(img, None, fx = 1/8, fy = 1/8, interpolation = cv2.INTER_NEAREST);
 	grayimg = cv2.resize(grayimg, None, fx = 1/8, fy = 1/8, interpolation = cv2.INTER_NEAREST);
@@ -39,21 +41,31 @@ def cMeasure(name):
 	maxx -= 4
 	distance = max(maxx - 1, minx - 1);
 	distanceact = distance*8 + 3
-	cent = (math.trunc((distance/10.1)*10))/10;
+	cent = (math.trunc((distance/10.4)*10))/10;
 	#print("distance (pixels crop): ", distance);
 	#print("distance (pixels actual): ", distanceact);
 	#print("distance (centimeters): ", cent,"cm");
-	cv2.circle(img, (maxx, miny+1), 0, (0, 0, 255), 2);
-	cv2.circle(img, (minx, miny+1), 0, (255, 0, 0), 2);
+	#cv2.circle(img, (maxx, miny+1), 0, (0, 0, 255), 2);
+	#cv2.circle(img, (minx, miny+1), 0, (255, 0, 0), 2);
 
-	endpoint = distanceact + 671;
-	cv2.circle(orig, (671, 320), 0, (0, 0, 255), 10);
-	cv2.circle(orig, (endpoint, 320), 0, (0, 0, 255), 10);
+	endpoint = distanceact + 811;
+	#cv2.circle(orig, (671, 320), 0, (0, 0, 255), 10);
+	#cv2.circle(orig, (811, 320), 0, (0, 255, 255), 10);
+	#cv2.circle(orig, (endpoint, 320), 0, (0, 0, 255), 10);
+	cv2.line(orig, (811,450), (811,100), (0, 255, 255), 3);
+	cv2.line(orig, (1267,440), (1267,90), (0, 255, 255), 3);
+
+	cv2.line(orig, (811,320), (811,360), (0, 0, 255), 3);
+	cv2.line(orig, (1267,320), (1267,360), (0, 0, 255), 3);
+	cv2.line(orig, (811,340), (1267,340), (0, 0, 255), 3);
+
+	cv2.putText(orig, '54mm', (1287,360), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+	orig = orig[0:750,500:1600]
 
 	img = cv2.resize(img, None, fx = 3, fy = 3, interpolation = cv2.INTER_NEAREST);
-	orig = cv2.resize(orig, None, fx = 1/3, fy = 1/3, interpolation = cv2.INTER_NEAREST);
+	orig = cv2.resize(orig, None, fx = 1/2, fy = 1/2, interpolation = cv2.INTER_NEAREST);
 	#cv2.imshow('image', img);
-	#cv2.imshow('original', orig);
+	#cv2.imshow('Cube Dimensions', orig);
 	#cv2.waitKey();
 
 	return cent*10
