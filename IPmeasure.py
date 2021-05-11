@@ -3,7 +3,7 @@ import math;
 import numpy;
 
 #name: the name of the image to read, probably something like "new1.jpg"
-#returns the width of the cube in millimeters as a decimal
+#returns the width of the cube in milimeters as a decimal
 #import at the top of your file using "from IPmeasure import *;"
 def cMeasure(name):
     filename = name;
@@ -52,18 +52,22 @@ def cMeasure(name):
     if (mm > 46) & (mm < 52):
         rightLine = round(811 + (76 / 9) * 49)
         string = "49mm"
+        mm = 49
         
     elif (mm > 51) & (mm < 57):
         rightLine = round(811 + (76 / 9) * 54)
         string = "54mm"
+        mm = 54
 
     elif (mm > 57) & (mm < 63):
         rightLine = round(811 + (76 / 9) * 60)
         string = "60mm"
+        mm = 60
         
     elif (mm > 64) & (mm < 73):
         rightLine = round(811 + (76 / 9) * 68)
         string = "68mm"
+        mm = 68
         
     else:
         rightLine = round(811 + (76 / 9) * mm)
@@ -94,4 +98,4 @@ def cMeasure(name):
     cv2.imshow('Cube Dimensions', orig);
     cv2.waitKey();
 
-    return cent*10
+    return mm
