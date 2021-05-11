@@ -39,7 +39,7 @@ open_round.pack()
 
 def send(scramble):
     print("Number of moves: %d" % (len(scramble.split(" "))))
-    print(transformToRobot(scramble))
+    print(transformToRobot(scramble)["scramble"])
     perform(transformToRobot(scramble))
 
 
@@ -88,11 +88,11 @@ def scan():
         #camera.start_preview()
         #time.sleep(5)
         camera.capture(imagelocation + extension)
-        print('image saved at:')
-        print(imagelocation + extension)
+        #print('image saved at:')
+        #print(imagelocation + extension)
         cubewidth = cMeasure(imagelocation + extension)
         #print("Cube width (mm): " + cubewidth)
-        print("Cube width: %dmm" % (cubewidth))
+        print("Scanned width: %dmm" % (cubewidth))
     finally:
         #camera.stop_preview()
         camera.close()
@@ -170,12 +170,13 @@ def transformToRobot(scramble):
         elif "w" in moves[i]:
             if moves[i][0] != "3":
                 moves[i] = "2" + moves[i]
-
+        elif "-" in moves[i]:
+            moves[i] = ""
         newScramble = newScramble + moves[i] + " "
         i += 1
     return  {
         "scramble": newScramble,
-        "width": CUBE_WIDTH,
+        "width": cubewidth,
         "order": size
     }
     # CHANGE THE NUMBER IN THIS LINE TO CHANGE THE CUBE WIDTH
