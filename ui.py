@@ -81,20 +81,20 @@ def scan():
     camera = PiCamera()
     imagelocation = '/home/pi/Desktop/mode5_'
     extension = '.jpg'
-    #camera.rotation = 180 #flips the image upsidedown if the camera is
+    camera.rotation = 180 #flips the image upsidedown if the camera is
     camera.sensor_mode = 5 #there are different modes with different FOV, 5 worked best
     global cubewidth
     try:
-        camera.start_preview()
-        time.sleep(5)
+        #camera.start_preview()
+        #time.sleep(5)
         camera.capture(imagelocation + extension)
         print('image saved at:')
         print(imagelocation + extension)
         cubewidth = cMeasure(imagelocation + extension)
         #print("Cube width (mm): " + cubewidth)
-        print("Cube width (mm): %d" % (cubewidth))
+        print("Cube width: %dmm" % (cubewidth))
     finally:
-        camera.stop_preview()
+        #camera.stop_preview()
         camera.close()
 
 tk.Button(root, text="1", command=send_1).pack()
