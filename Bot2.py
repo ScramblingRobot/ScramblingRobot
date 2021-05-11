@@ -53,7 +53,7 @@ class Control:
         print ("CREATED:", self.__class__.__name__, "object")
         self.servo = []
         self.cServo = []
-        self.servo.append(Servo(0, Control.kit, 0, 445, 2355, round(135/1.5 - 2))) #center Rotate
+        self.servo.append(Servo(0, Control.kit, 0, 445, 2355, round(135/1.5 - 4))) #center Rotate
         self.servo.append(Servo(1, Control.kit, 1, 445, 2375, round(135/1.5 - 45))) #center Move
         self.servo.append(Servo(2, Control.kit, 2, 435, 2360, round(135/1.5 - 2))) #right Rotate
         self.servo.append(Servo(3, Control.kit, 3, 500, 2400, round(135/1.5))) #broken servo :(

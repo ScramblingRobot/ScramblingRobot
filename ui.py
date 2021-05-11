@@ -81,7 +81,7 @@ def scan():
     camera = PiCamera()
     imagelocation = '/home/pi/Desktop/mode5_'
     extension = '.jpg'
-    camera.rotation = 180 #flips the image upsidedown if the camera is
+    #camera.rotation = 180 #flips the image upsidedown if the camera is
     camera.sensor_mode = 5 #there are different modes with different FOV, 5 worked best
     global cubewidth
     try:

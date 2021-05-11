@@ -46,6 +46,10 @@ def testMove(arm, position, waitTime):
         arm.moveSmooth(arm.moveDictionary[position], 0.01)
     time.sleep(waitTime)
     
+def testRotate(arm, position, waitTime):
+    arm.rotate(position)
+    time.sleep(waitTime)
+    
 def unitTestAcceptCube(moveNumber):
     if moveNumber == 1:
         cubeWidth = 54
@@ -75,26 +79,29 @@ def unitTestAcceptCube(moveNumber):
         testMove(cuBot.centerArm, 31, 1)
         
 ######### Begin Testing ##########
-#testAcceptCube()
+testAcceptCube()
 #time.sleep(10)
 #testCheckHeight()
-#testL(1, 1)
+testL(1, 1)
 #testL(2, 1)
 #testY(1)
-#testL(1, -1)
+testL(1, -1)
 #testL(2, -1)
 #testCheckHeight()
-#testR(1, 1)
+testR(1, 1)
 #testR(2, 1)
-#testR(1, -1)
+testR(1, -1)
 #testR(2, -1)
 #testCheckHeight()
 #testD(1, 1)
-#testY(-1)
-#testPresentCube()
+#testY(1)
+testPresentCube()
 
-testGrip(cuBot.centerArm, 54, 3)
-#testMove(cuBot.rightArm, 46, 1)
+#testGrip(cuBot.centerArm, 54, 3)
+#testMove(cuBot.centerArm, 20, 1)
+#testRotate(cuBot.rightArm, -1, 5)
+#testRotate(cuBot.rightArm, 0, 1)
+#testMove(cuBot.centerArm, 31, 1)
 #unitTestAcceptCube(1)
 #unitTestAcceptCube(2)
 
