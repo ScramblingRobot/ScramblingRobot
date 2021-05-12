@@ -2,7 +2,7 @@ from CuBot2 import CuBot
 import time
 
 cuBot = CuBot()
-cuBot.updateCube(60, 4)
+cuBot.updateCube(60, 5)
 #7x7: 69mm
 #5x5, 4x4: 60mm
 #3x3: 54mm
@@ -97,7 +97,7 @@ def unitTestAcceptCube(moveNumber):
 #testY(1)
 #testPresentCube()
 
-#testGrip(cuBot.centerArm, 54, 3)
+testGrip(cuBot.rightArm, 60, 3)
 #testMove(cuBot.centerArm, 20, 1)
 #testRotate(cuBot.rightArm, -1, 5)
 #testRotate(cuBot.rightArm, 0, 1)
