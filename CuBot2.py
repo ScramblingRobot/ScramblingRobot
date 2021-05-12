@@ -85,7 +85,7 @@ class CuBot:
     ## Orientation: no change
     def checkHeight(self):
         print("<[^-^]>: Resetting cube's height")
-        self.leftArm.grip(self.leftArm.gripDictionary[100])
+        self.leftArm.grip(self.leftArm.gripDictionary[self.cube.width + 60])
         self.rightArm.grip(self.rightArm.gripDictionary[self.cube.width + 60])
         self.leftArm.move(self.leftArm.moveInitAngle)
         self.rightArm.move(self.rightArm.moveInitAngle)
@@ -98,6 +98,7 @@ class CuBot:
         self.rightArm.rotate(-1)
         time.sleep(0.5)
         self.centerArm.moveSmooth(self.centerArm.moveDictionary[31 + (self.cube.width / 2) + 10], 0.02)
+        self.leftArm.grip(self.leftArm.gripDictionary[100])
         time.sleep(0.5)
         self.leftArm.rotate(-1)
         time.sleep(0.5)
@@ -118,7 +119,6 @@ class CuBot:
         self.rightArm.rotate(0)
         time.sleep(0.5)
         self.centerArm.moveSmooth(self.centerArm.moveDictionary[31 + (self.cube.width / 2) + 10], 0.02)
-        self.rightArm.grip(self.rightArm.gripClearanceAngle)
         time.sleep(0.5)
         self.leftArm.rotate(0)
         time.sleep(0.5)
